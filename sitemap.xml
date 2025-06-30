@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://daai25.github.io/real_estate_price_predictor/index.html</loc>
-    <lastmod>2025-06-30T17:37:01.471Z</lastmod>
-  </url>
-  <url>
     <loc>https://daai25.github.io/real_estate_price_predictor/project_charta.html</loc>
-    <lastmod>2025-06-30T17:37:01.480Z</lastmod>
-  </url>
-  <url>
-    <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/data_report.html</loc>
-    <lastmod>2025-06-30T17:37:01.471Z</lastmod>
-  </url>
-  <url>
-    <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/modelling_report.html</loc>
-    <lastmod>2025-06-30T17:37:01.472Z</lastmod>
-  </url>
-  <url>
-    <loc>https://daai25.github.io/real_estate_price_predictor/data_report.html</loc>
-    <lastmod>2025-06-30T17:37:01.471Z</lastmod>
-  </url>
-  <url>
-    <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/evaluation_decision_log.html</loc>
-    <lastmod>2025-06-30T17:37:01.472Z</lastmod>
+    <lastmod>2025-06-30T17:36:32.378Z</lastmod>
   </url>
   <url>
     <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/project_charta_template.html</loc>
-    <lastmod>2025-06-30T17:37:01.472Z</lastmod>
+    <lastmod>2025-06-30T17:12:40.103Z</lastmod>
+  </url>
+  <url>
+    <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/evaluation_decision_log.html</loc>
+    <lastmod>2025-06-30T17:12:40.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://daai25.github.io/real_estate_price_predictor/index.html</loc>
+    <lastmod>2025-06-30T17:12:40.224Z</lastmod>
+  </url>
+  <url>
+    <loc>https://daai25.github.io/real_estate_price_predictor/data_report.html</loc>
+    <lastmod>2025-06-30T17:12:40.084Z</lastmod>
   </url>
   <url>
     <loc>https://daai25.github.io/real_estate_price_predictor/evaluation.html</loc>
-    <lastmod>2025-06-30T17:37:01.471Z</lastmod>
+    <lastmod>2025-06-30T17:12:40.084Z</lastmod>
+  </url>
+  <url>
+    <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/data_report.html</loc>
+    <lastmod>2025-06-30T17:12:40.087Z</lastmod>
+  </url>
+  <url>
+    <loc>https://daai25.github.io/real_estate_price_predictor/md-templates/modelling_report.html</loc>
+    <lastmod>2025-06-30T17:12:40.103Z</lastmod>
   </url>
   <url>
     <loc>https://daai25.github.io/real_estate_price_predictor/modelling_report.html</loc>
-    <lastmod>2025-06-30T17:37:01.472Z</lastmod>
+    <lastmod>2025-06-30T17:12:40.104Z</lastmod>
   </url>
 </urlset>
