@@ -1,4 +1,4 @@
-name: sample
+name: prod
 channels:
   - anaconda
   - conda-forge
@@ -7,7 +7,7 @@ dependencies:
   - bokeh
   - jupyterlab
   - pandas
-  - python
+  - python=3.10
   - scikit-learn
   - scikit-plot
   - seaborn
