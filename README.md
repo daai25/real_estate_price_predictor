@@ -1,6 +1,6 @@
 # Sample Project
 Change `sample` to the respective project name in
-
+test
 * filename of .yml file
 * environment name in .yml-file
 * in the commands below
