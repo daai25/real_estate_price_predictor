@@ -6,7 +6,10 @@ channels:
 dependencies:
   - bokeh
   - jupyterlab
+  - nodejs
   - pandas
+  - playwright
+  - lxml
   - python=3.10
   - scikit-learn
   - scikit-plot
@@ -16,3 +19,4 @@ dependencies:
       - python-dotenv
       - ydata-profiling
       - scrapy
+      - scrapy-playwright
