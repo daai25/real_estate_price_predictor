@@ -21,3 +21,5 @@ dependencies:
       - scrapy
       - scrapy-playwright
       - geopy
+      - selenium
+      - webdriver_manager
