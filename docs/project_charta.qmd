@@ -18,7 +18,7 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 
 | Stakeholder       | Role                                 | Goal                                | Relationship                        |
 |-------------------|--------------------------------------|-------------------------------------|-------------------------------------|
-| Buyers/Renters    | Users of the predictor                | Find the best value-for-money home  | Interested in accuracy and usability |
+| Buyers/Renters    | Users of the predictor               | Find the best value-for-money home  | Interested in accuracy and usability |
 | Sellers/Landlords | Input providers and users            | Price fairly and competitively      | Interested in fair predictions       |
 | Project Team      | Developers and analysts              | Build the system within 4 weeks     | Provides value to both user groups   |
 | Data Sources      | Real estate websites (UrbanHome etc.)| Provide structured/unstructured data| Data dependency                      |
@@ -65,7 +65,7 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 ## Data Mining Goals
 
 **Task Mapping**  
-- **Primary Task**: Regression, to predict continuous property prices  
+- **Primary Task**: Regression, to predict continuous property prices.  
 - **Subtasks**:
   - Classification, for image room types or amenity presence
   - Visualization, for dashboard output and EDA
@@ -85,8 +85,8 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 
 ## Roles and Contact Details
 
-| Name            | Role             | Tasks                                                                 | Contact                     |
+| Name            | Role             | Tasks                                                                  | Contact                     |
 |-----------------|------------------|------------------------------------------------------------------------|-----------------------------|
-| Josh        | Data Engineer    | Web scraping, data cleansing, DB design                                | richtjos@mail.gvsu.edu         |
-| Alessandro Mazzeo        | ML Developer     | Feature engineering, model training, evaluation                        | mazzale@students.zhaw.ch         |
+| Josh            | Data Engineer    | Web scraping, data cleansing, DB design                                | richtjos@mail.gvsu.edu         |
+| Alessandro Mazzeo 1              | ML Developer     | Feature engineering, model training, evaluation                        | mazzale@students.zhaw.ch         |
 | Antonio Michal Verdile        | Full Stack Dev   | Dashboard development, ML integration, UI/UX design                    | verdiant@students.zhaw.ch         |
