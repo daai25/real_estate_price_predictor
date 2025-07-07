@@ -1,13 +1,17 @@
+import json
+import os
 import psycopg2
-from property_data import properties
 
 def insert_data():
+    with open(os.path.abspath("data_acquisition/data_preparation/cleaned_data/cleaned_data.json"), "r", encoding="utf-8") as f:
+        properties = json.load(f)
+        
     conn = psycopg2.connect(
         dbname="real_estate_price_predictor",
-        user="prod",
-        password="prod",
+        user="postgres",
+        password="postgres",
         host="localhost",
-        port=5432
+        port=5433
     )
     cur = conn.cursor()
 
@@ -27,9 +31,9 @@ def insert_data():
         cur.execute("""
             INSERT INTO properties (
                 title, address, zip_code, city, region, price, rooms,
-                area_sqm, floor, availability_date, has_balcony, description
+                area_sqm, floor, availability_date, has_balcony, description, is_rental
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id;
         """, (
             prop['title'],
@@ -43,7 +47,8 @@ def insert_data():
             prop['floor'],
             prop['availability_date'],
             prop['has_balcony'],
-            prop['description']
+            prop['description'],
+            prop['is_rental']
         ))
 
         property_id = cur.fetchone()[0]
