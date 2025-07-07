@@ -67,6 +67,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -155,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#roles-and-contact-details" id="toc-roles-and-contact-details" class="nav-link" data-scroll-target="#roles-and-contact-details">Roles and Contact Details</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="project_charta.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
@@ -256,7 +260,7 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 <section id="data-mining-goals" class="level2">
 <h2 class="anchored" data-anchor-id="data-mining-goals">Data Mining Goals</h2>
 <p><strong>Task Mapping</strong><br>
-- <strong>Primary Task</strong>: Regression, to predict continuous property prices<br>
+- <strong>Primary Task</strong>: Regression, to predict continuous property prices.<br>
 - <strong>Subtasks</strong>: - Classification, for image room types or amenity presence - Visualization, for dashboard output and EDA</p>
 <p><strong>Datasets to Be Used</strong><br>
 - Scraped tabular data (price, rooms, size, location, etc.)<br>
@@ -291,7 +295,7 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 <tr class="odd">
 <td>Josh</td>
 <td>Data Engineer</td>
-<td>Web scraping, data cleansing, DB design</td>
+<td>Web scraping, data cleaning, DB design</td>
 <td>richtjos@mail.gvsu.edu</td>
 </tr>
 <tr class="even">
@@ -308,6 +312,52 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 </tr>
 </tbody>
 </table>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">gantt
+    title Project Plan
+    dateFormat  YYYY-MM-DD
+    tickInterval 5day
+    todayMarker off
+    axisFormat  %d.%m
+
+    section Phase 1: 
+    Data Engineering    :crit,   gh1, 2025-06-30, 4d
+    Project Charta      :        pc1, 2025-06-30, 1d
+    Data Scraping       :        ds1, 2025-07-01, 2d
+    DB Design           :        db1, 2025-07-02, 1d
+    Data Insertion      :        di1, 2025-07-03, 1d
+
+    section Phase 2: 
+    Machine Learning    :crit,   cd1, 2025-07-07, 4d
+    Data Prep           :        dp1, 2025-07-07, 1d
+    EDA                 :        ed,  2025-07-07, 2d
+    Preprocessing       :        pp1, 2025-07-08, 2d
+    Modeling            :        mod, 2025-07-09, 1d
+    Evaluation          :        ev1, 2025-07-10, 1d
+
+    section Phase 3: 
+    Deep Learning       :crit,   ab1, 2025-07-14, 4d
+    Image Labeling      :        il1, 2025-07-14, 1d
+    Model Building      :        mb1, 2025-07-15, 2d
+    Training            :        tr1, 2025-07-16, 1d
+    Feature Integration :        fi1, 2025-07-17, 1d
+
+    section Phase 4: 
+    Visualisation       :crit,   ef1, 2025-07-24, 4d
+    Dashboard           :        dd1, 2025-07-24, 2d
+    Data Visualisation  :        dv1, 2025-07-25, 1d
+    Prediction Interface:        pi1, 2025-07-26, 1d
+    Backend Integration :        bi1, 2025-07-26, 1d
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 
 
 </section>
