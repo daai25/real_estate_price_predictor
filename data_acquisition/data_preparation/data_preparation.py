@@ -1,11 +1,15 @@
+import glob
 import os
 import pandas as pd
 import numpy as np
 import re
 
 # === 1. Load data ===
-file_path = os.path.abspath("data_acquisition/data_preparation/data/output_urbanhome.json")
-df = pd.read_json(file_path)
+folder_path = os.path.abspath("data_acquisition/data_preparation/data/")
+all_files = glob.glob(os.path.join(folder_path, "*.json"))
+
+df_list = [pd.read_json(file) for file in all_files]
+df = pd.concat(df_list, ignore_index=True)
 
 # === 2. Type conversions ===
 df["rooms"] = pd.to_numeric(df["rooms"], errors="coerce")
@@ -223,5 +227,24 @@ df = df[df["rooms"].notna()]
 df = df[df["floor"].notna()]
 df = df[df["area_sqm"].notna()]
 
+def is_rental(row):
+    text = (str(row.get("title", "")) + " " + str(row.get("description", ""))).lower()
+    
+    if any(w in text for w in ["miete", "vermietet", "zur miete", "monatlich", "rental"]):
+        return True
+    if any(w in text for w in ["kaufen", "kauf", "verkauf", "zum kauf", "einmalig", "kaufpreis", "buy"]):
+        return False
+    
+    if row["price"] < 20000:
+        return True
+    if row["price"] >= 20000:
+        return False
+    
+    return np.nan
+
+df["is_rental"] = df.apply(is_rental, axis=1)
+
 # === 11. Save cleaned file ===
-df.to_json("cleaned_data.json", orient="records", indent=2, date_format="iso")
+output_path = os.path.abspath("data_acquisition/data_preparation/cleaned_data/cleaned_data.json")
+print(f"✅ Saving {len(df)} cleaned entries to: {output_path}")
+df.to_json(output_path, orient="records", indent=2, date_format="iso")
