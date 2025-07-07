@@ -19,8 +19,13 @@ class FlatfoxSeleniumSpider(scrapy.Spider):
     SWISS_CITIES = [
         "Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Lugano",
         "Winterthur", "Biel/Bienne", "Thun", "Köniz", "La Chaux-de-Fonds", "Schaffhausen",
-        "Fribourg", "Chur", "Neuchâtel", "Vernier", "Uster", "Sion"
-        # You can add more cities here
+        "Fribourg", "Chur", "Neuchâtel", "Vernier", "Uster", "Sion",
+        "Yverdon-les-Bains", "Zug", "Rapperswil-Jona", "Dietikon", "Montreux", "Frauenfeld", "Wil",
+        "Baar", "Bellinzona", "Carouge", "Locarno", "Meyrin", "Wädenswil", "Wetzikon", "Bulle",
+        "Aarau", "Gossau", "Muttenz", "Kreuzlingen", "Allschwil", "Olten", "Pully", "Burgdorf",
+        "Vevey", "Martigny", "Renens", "Emmen", "Sierre", "Hinwil", "Thalwil", "Romanshorn",
+        "Baden", "Lancy", "Pfäffikon", "Arbon", "Solothurn", "Steffisburg", "Neuenhof",
+        "Glarus", "Chiasso", "Schwyz", "Liestal", "Brig", "Herisau"
     ]
 
     def __init__(self):
@@ -36,7 +41,7 @@ class FlatfoxSeleniumSpider(scrapy.Spider):
                 Chrome browser.
         """
         options = Options()
-        #options.add_argument("--headless")
+        options.add_argument("--headless")
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
     def get_city_url(self, city_name):
@@ -178,7 +183,7 @@ class FlatfoxSeleniumSpider(scrapy.Spider):
             location identifier, and the second element represents the name of the
             location. Returns (None, None) if no match is found.
         """
-        match = re.search(r'(\b\d{4})\s+([\wÀ-ÿ\'\- ]+)', text)
+        match = re.match(r'(\d{4})\s+(.*)', text.strip())
         return match.groups() if match else (None, None)
 
     def parse_detail(self, response, item):

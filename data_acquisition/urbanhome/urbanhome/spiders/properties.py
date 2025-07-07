@@ -12,12 +12,20 @@ import time
 class UrbanHomeSeleniumSpider(scrapy.Spider):
     name = 'urbanhome_selenium'
     start_urls = [
-        'https://www.urbanhome.ch/suchen/mieten/wohnen',
-        'https://www.urbanhome.ch/suchen/mieten/wohnung',
-        'https://www.urbanhome.ch/suchen/mieten/haus',
-        'https://www.urbanhome.ch/suchen/mieten/buero',
-        'https://www.urbanhome.ch/suchen/mieten/gewerbe',
+        'https://www.urbanhome.ch/suchen/kaufen/wohnen',
+        'https://www.urbanhome.ch/suchen/kaufen/wohnung',
+        'https://www.urbanhome.ch/suchen/kaufen/haus',
+        'https://www.urbanhome.ch/suchen/kaufen/gewerbe',
     ]
+    
+    #start_urls = [
+    #    'https://www.urbanhome.ch/suchen/mieten/wohnen',
+    #    'https://www.urbanhome.ch/suchen/mieten/wohnung',
+    #    'https://www.urbanhome.ch/suchen/mieten/haus',
+    #    'https://www.urbanhome.ch/suchen/mieten/buero',
+    #    'https://www.urbanhome.ch/suchen/mieten/gewerbe',
+    #]
+
     allowed_domains = ['urbanhome.ch']
 
     def __init__(self):
