@@ -1,3 +1,8 @@
+---
+format:
+  html:
+    mermaid: {}
+---
 # Project Charta
 
 ## Problem Definition
@@ -87,6 +92,44 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 
 | Name            | Role             | Tasks                                                                  | Contact                     |
 |-----------------|------------------|------------------------------------------------------------------------|-----------------------------|
-| Josh            | Data Engineer    | Web scraping, data cleansing, DB design                                | richtjos@mail.gvsu.edu         |
-| Alessandro Mazzeo 1              | ML Developer     | Feature engineering, model training, evaluation                        | mazzale@students.zhaw.ch         |
+| Josh            | Data Engineer    | Web scraping, data cleaning, DB design                                | richtjos@mail.gvsu.edu         |
+| Alessandro Mazzeo             | ML Developer     | Feature engineering, model training, evaluation                        | mazzale@students.zhaw.ch         |
 | Antonio Michal Verdile        | Full Stack Dev   | Dashboard development, ML integration, UI/UX design                    | verdiant@students.zhaw.ch         |
+
+```{mermaid}
+gantt
+    title Project Plan
+    dateFormat  YYYY-MM-DD
+    tickInterval 5day
+    todayMarker off
+    axisFormat  %d.%m
+
+    section Phase 1: 
+    Data Engineering    :crit,   gh1, 2025-06-30, 4d
+    Project Charta      :        pc1, 2025-06-30, 1d
+    Data Scraping       :        ds1, 2025-07-01, 2d
+    DB Design           :        db1, 2025-07-02, 1d
+    Data Insertion      :        di1, 2025-07-03, 1d
+
+    section Phase 2: 
+    Machine Learning    :crit,   cd1, 2025-07-07, 4d
+    Data Prep           :        dp1, 2025-07-07, 1d
+    EDA                 :        ed,  2025-07-07, 2d
+    Preprocessing       :        pp1, 2025-07-08, 2d
+    Modeling            :        mod, 2025-07-09, 1d
+    Evaluation          :        ev1, 2025-07-10, 1d
+
+    section Phase 3: 
+    Deep Learning       :crit,   ab1, 2025-07-14, 4d
+    Image Labeling      :        il1, 2025-07-14, 1d
+    Model Building      :        mb1, 2025-07-15, 2d
+    Training            :        tr1, 2025-07-16, 1d
+    Feature Integration :        fi1, 2025-07-17, 1d
+
+    section Phase 4: 
+    Visualisation       :crit,   ef1, 2025-07-24, 4d
+    Dashboard           :        dd1, 2025-07-24, 2d
+    Data Visualisation  :        dv1, 2025-07-25, 1d
+    Prediction Interface:        pi1, 2025-07-26, 1d
+    Backend Integration :        bi1, 2025-07-26, 1d
+```
