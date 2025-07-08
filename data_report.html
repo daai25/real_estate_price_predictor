@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>data_report – Sample Project</title>
+<title>Data Report – Sample Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,181 +146,428 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-report" id="toc-data-report" class="nav-link active" data-scroll-target="#data-report">Data Report</a>
-  <ul class="collapse">
-  <li><a href="#raw-data" id="toc-raw-data" class="nav-link" data-scroll-target="#raw-data">Raw data</a>
+  <li><a href="#raw-data" id="toc-raw-data" class="nav-link active" data-scroll-target="#raw-data">Raw Data</a>
   <ul class="collapse">
   <li><a href="#overview-raw-datasets" id="toc-overview-raw-datasets" class="nav-link" data-scroll-target="#overview-raw-datasets">Overview Raw Datasets</a></li>
-  <li><a href="#details-dataset-1" id="toc-details-dataset-1" class="nav-link" data-scroll-target="#details-dataset-1">Details Dataset 1</a></li>
+  <li><a href="#details-dataset-1-flatfox-listings" id="toc-details-dataset-1-flatfox-listings" class="nav-link" data-scroll-target="#details-dataset-1-flatfox-listings">Details Dataset 1: Flatfox Listings</a></li>
+  <li><a href="#details-dataset-2-urbanhome-rentals" id="toc-details-dataset-2-urbanhome-rentals" class="nav-link" data-scroll-target="#details-dataset-2-urbanhome-rentals">Details Dataset 2: UrbanHome Rentals</a></li>
+  <li><a href="#details-dataset-3-urbanhome-sales" id="toc-details-dataset-3-urbanhome-sales" class="nav-link" data-scroll-target="#details-dataset-3-urbanhome-sales">Details Dataset 3: UrbanHome Sales</a></li>
+  <li><a href="#data-catalogue-flatfox-and-urbanhome-listings" id="toc-data-catalogue-flatfox-and-urbanhome-listings" class="nav-link" data-scroll-target="#data-catalogue-flatfox-and-urbanhome-listings">Data Catalogue (Flatfox and Urbanhome Listings)</a></li>
   </ul></li>
+  <li><a href="#data-quality" id="toc-data-quality" class="nav-link" data-scroll-target="#data-quality">Data Quality</a></li>
   <li><a href="#processed-data" id="toc-processed-data" class="nav-link" data-scroll-target="#processed-data">Processed Data</a>
   <ul class="collapse">
   <li><a href="#overview-processed-datasets" id="toc-overview-processed-datasets" class="nav-link" data-scroll-target="#overview-processed-datasets">Overview Processed Datasets</a></li>
-  <li><a href="#details-processed-dataset-1" id="toc-details-processed-dataset-1" class="nav-link" data-scroll-target="#details-processed-dataset-1">Details Processed Dataset 1</a></li>
-  <li><a href="#details-processed-dataset-2" id="toc-details-processed-dataset-2" class="nav-link" data-scroll-target="#details-processed-dataset-2">Details Processed Dataset 2</a></li>
+  <li><a href="#details-processed-dataset-1-cleaned-listings" id="toc-details-processed-dataset-1-cleaned-listings" class="nav-link" data-scroll-target="#details-processed-dataset-1-cleaned-listings">Details Processed Dataset 1: Cleaned Listings</a></li>
+  <li><a href="#data-catalogue-cleaned-listings" id="toc-data-catalogue-cleaned-listings" class="nav-link" data-scroll-target="#data-catalogue-cleaned-listings">Data Catalogue (Cleaned Listings)</a></li>
   </ul></li>
-  </ul></li>
+  <li><a href="#optional-entity-relationship-diagram" id="toc-optional-entity-relationship-diagram" class="nav-link" data-scroll-target="#optional-entity-relationship-diagram">(Optional) Entity Relationship Diagram</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="data_report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Report</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="data-report" class="level1">
-<h1>Data Report</h1>
-<p>All information on the data used in the project is compiled in the data report in order to ensure the traceability and reproducibility of the results and to enable a systematic expansion of the database.</p>
-<p>Typically, in the exploratory analysis of the acquired raw data, quality and other issues are identified, which require pre-processing, merging of individual datasets and feature engineering into processed datasets. Therefore, this template provides a separate section for the processed data, which then serves as a starting point for the modelling activities. This needs to be adapted to the specific project requirements.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>All information on the data used in the project is compiled in this data report to ensure the traceability and reproducibility of the results and to enable a systematic expansion of the database.</p>
+<p>Typically, in the exploratory analysis of the acquired raw data, quality and other issues are identified, which require pre-processing, merging of individual datasets and feature engineering into processed datasets. Therefore, this report provides a separate section for the processed data, which then serves as a starting point for the modelling activities.</p>
+<hr>
 <section id="raw-data" class="level2">
-<h2 class="anchored" data-anchor-id="raw-data">Raw data</h2>
+<h2 class="anchored" data-anchor-id="raw-data">Raw Data</h2>
 <section id="overview-raw-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="overview-raw-datasets">Overview Raw Datasets</h3>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 31%">
-<col style="width: 56%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
-<th>Quelle</th>
-<th>Storage location</th>
+<th>Source</th>
+<th>Storage Location</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Dataset 1</td>
-<td>Name/short description of the data source</td>
-<td>Link and/or short description of the location where the data is stored, e.g.&nbsp;accessible to the team</td>
+<td>Flatfox Listings</td>
+<td>flatfox.ch (rental offers)</td>
+<td><a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/flatfox/output-flat.json"><code>output_flatfox.json</code></a></td>
 </tr>
 <tr class="even">
-<td>Dataset 2</td>
-<td>…</td>
-<td>…</td>
+<td>UrbanHome Rentals</td>
+<td>urbanhome.ch (rental offers)</td>
+<td><a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output.json"><code>output_urbanhome.json</code></a></td>
+</tr>
+<tr class="odd">
+<td>UrbanHome Sales</td>
+<td>urbanhome.ch (buy offers)</td>
+<td><a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output_buy.json"><code>output_urbanhome_buy.json</code></a></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="details-dataset-1" class="level3">
-<h3 class="anchored" data-anchor-id="details-dataset-1">Details Dataset 1</h3>
+<section id="details-dataset-1-flatfox-listings" class="level3">
+<h3 class="anchored" data-anchor-id="details-dataset-1-flatfox-listings">Details Dataset 1: Flatfox Listings</h3>
 <ul>
-<li>Description of what information the dataset contains</li>
-<li>Details of the data source/provider</li>
-<li>Information on data procurement: description and possibly references to resources (download scripts, tools, online services, …). Any new team member should be able to acquire the data indepentendently following these instructions.</li>
-<li>Legal aspects of data use, licences, etc.</li>
-<li>Data governance aspects: Categorisation of the data based on internal business requirements, e.g.&nbsp;public, business-relevant, personal</li>
-<li>If applicable: categorisation into dependent (target variable, regressor) and independent (regressor) variables</li>
-<li>…</li>
+<li><strong>Description</strong>: Contains real estate rental listings scraped from flatfox.ch, including title, address, ZIP code, city, price, rooms, area in sqm, availability, etc.</li>
+<li><strong>Source/Provider</strong>: Flatfox.ch</li>
+<li><strong>Procurement</strong>: Collected using custom Python scraper using Selenium and BeautifulSoup</li>
+<li><strong>Reproducibility</strong>: Team members can rerun scraping using the script in the GitHub repository under <a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/flatfox/flatfox/spiders/flatfox_scraper.py">Flatfox Scraper</a></li>
+<li><strong>Legal</strong>: Only publicly accessible data is used; terms of use must be checked regularly.</li>
+<li><strong>Governance</strong>: Business-relevant, anonymized</li>
+<li><strong>Variable roles</strong>:
+<ul>
+<li>Dependent: <code>price</code></li>
+<li>Independent: <code>rooms</code>, <code>area_sqm</code>, <code>floor</code>, <code>zip_code</code>, <code>has_balcony</code>, <code>city</code></li>
+</ul></li>
 </ul>
-<section id="data-catalogue" class="level4">
-<h4 class="anchored" data-anchor-id="data-catalogue">Data Catalogue</h4>
-<p>The data catalogue basically represents an extended schema of a relational database.</p>
+</section>
+<section id="details-dataset-2-urbanhome-rentals" class="level3">
+<h3 class="anchored" data-anchor-id="details-dataset-2-urbanhome-rentals">Details Dataset 2: UrbanHome Rentals</h3>
+<ul>
+<li><strong>Description</strong>: Rental property listings collected from urbanhome.ch, with attributes such as location, price, size, and availability.</li>
+<li><strong>Source/Provider</strong>: UrbanHome.ch</li>
+<li><strong>Procurement</strong>: Scraped using a Selenium-based Python script; similar structure to Flatfox data</li>
+<li><strong>Reproducibility</strong>: Fully reproducible via the <a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py">Urbanhome Scraper</a> script in the repository</li>
+<li><strong>Legal</strong>: Publicly available data; periodically verify platform terms of use</li>
+<li><strong>Governance</strong>: Public and business-relevant</li>
+<li><strong>Variable roles</strong>:
+<ul>
+<li>Dependent: <code>price</code></li>
+<li>Independent: <code>rooms</code>, <code>area_sqm</code>, <code>floor</code>, <code>zip_code</code>, <code>has_balcony</code>, <code>city</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="details-dataset-3-urbanhome-sales" class="level3">
+<h3 class="anchored" data-anchor-id="details-dataset-3-urbanhome-sales">Details Dataset 3: UrbanHome Sales</h3>
+<ul>
+<li><strong>Description</strong>: Contains residential real estate listings offered for sale on urbanhome.ch, with structured fields similar to rental data.</li>
+<li><strong>Source/Provider</strong>: UrbanHome.ch</li>
+<li><strong>Procurement</strong>: Collected via a custom web scraping script <code>urbanhome_buy_scraper.py</code></li>
+<li><strong>Reproducibility</strong>: Executable with documented script under the <a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py">Urbanhome Scraper</a> script in the repository</li>
+<li><strong>Legal</strong>: Scraped from publicly accessible offers; non-personal data</li>
+<li><strong>Governance</strong>: Public, business-relevant</li>
+<li><strong>Variable roles</strong>:
+<ul>
+<li>Dependent: <code>price</code></li>
+<li>Independent: <code>rooms</code>, <code>area_sqm</code>, <code>zip_code</code>, <code>city</code>, <code>has_balcony</code>, <code>floor</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="data-catalogue-flatfox-and-urbanhome-listings" class="level3">
+<h3 class="anchored" data-anchor-id="data-catalogue-flatfox-and-urbanhome-listings">Data Catalogue (Flatfox and Urbanhome Listings)</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 24%">
+<col style="width: 37%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Column index</th>
-<th>Column name</th>
+<th>Column Index</th>
+<th>Column Name</th>
 <th>Datatype</th>
-<th>Values (Range, validation rules)</th>
-<th>Short description</th>
+<th>Values / Validation</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>title</td>
+<td>string</td>
+<td>-</td>
+<td>Title of the listing</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>address</td>
+<td>string</td>
+<td>-</td>
+<td>Street address</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>3</td>
+<td>zip_code</td>
+<td>int</td>
+<td>1000 - 9999</td>
+<td>Swiss ZIP code</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>city</td>
+<td>string</td>
+<td>-</td>
+<td>City name</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>region</td>
+<td>string</td>
+<td>e.g.&nbsp;ZH, BE</td>
+<td>Canton abbreviation</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>price</td>
+<td>float</td>
+<td>&gt; 0</td>
+<td>Monthly rent or price</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>rooms</td>
+<td>float</td>
+<td>0.5 - 10</td>
+<td>Number of rooms</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>floor</td>
+<td>int</td>
+<td>&gt;= 0</td>
+<td>Floor number</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>area_sqm</td>
+<td>float</td>
+<td>&gt; 0</td>
+<td>Living space in square meters</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>availability_date</td>
+<td>datetime</td>
+<td>ISO 8601</td>
+<td>Start date for availability</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>has_balcony</td>
+<td>boolean</td>
+<td>true / false</td>
+<td>Whether the apartment has a balcony</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>description</td>
+<td>string</td>
+<td>-</td>
+<td>Full text of the listing</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>image_urls</td>
+<td>list[string]</td>
+<td>Valid URLs</td>
+<td>Image URLs</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>is_rental</td>
+<td>boolean</td>
+<td>true</td>
+<td>Indicates rental properties</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="if-applicable-entity-relationship-diagram" class="level4">
-<h4 class="anchored" data-anchor-id="if-applicable-entity-relationship-diagram">If applicable: Entity Relationship Diagram</h4>
-</section>
-<section id="data-quality" class="level4">
-<h4 class="anchored" data-anchor-id="data-quality">Data Quality</h4>
+<hr>
 </section>
 </section>
+<section id="data-quality" class="level2">
+<h2 class="anchored" data-anchor-id="data-quality">Data Quality</h2>
+<p>During initial exploratory analysis, the following issues were identified:</p>
+<ul>
+<li>Some listings contain missing <code>price</code>, <code>area_sqm</code>, or <code>rooms</code> values.</li>
+<li>Inconsistencies in <code>zip_code</code> formats (some as strings, some as ints)</li>
+<li>Mixed granularity in <code>rooms</code> values (e.g.&nbsp;1 vs 1.0 vs 1.5 vs 3 ½)</li>
+<li>Incomplete or overly long free-text <code>description</code> fields</li>
+<li>Duplicate or nearly duplicate entries (due to reposts or scrape overlaps)</li>
+</ul>
+<p>These issues required cleaning steps such as deduplication, type normalization, filtering and imputation.</p>
+<hr>
 </section>
 <section id="processed-data" class="level2">
 <h2 class="anchored" data-anchor-id="processed-data">Processed Data</h2>
 <section id="overview-processed-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="overview-processed-datasets">Overview Processed Datasets</h3>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 31%">
-<col style="width: 56%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
-<th>Quelle</th>
-<th>Storage location</th>
+<th>Source</th>
+<th>Storage Location</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Processed Dataset 1</td>
-<td>Name/short description of the data source</td>
-<td>Link and/or short description of the location where the data is stored, e.g.&nbsp;accessible to the team</td>
-</tr>
-<tr class="even">
-<td>Processed Dataset 2</td>
-<td>…</td>
-<td>…</td>
+<td>Cleaned Listings</td>
+<td>Aggregated &amp; cleaned</td>
+<td><a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/data_preparation/cleaned_data/cleaned_data.json"><code>cleaned_data.json</code></a></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="details-processed-dataset-1" class="level3">
-<h3 class="anchored" data-anchor-id="details-processed-dataset-1">Details Processed Dataset 1</h3>
+<section id="details-processed-dataset-1-cleaned-listings" class="level3">
+<h3 class="anchored" data-anchor-id="details-processed-dataset-1-cleaned-listings">Details Processed Dataset 1: Cleaned Listings</h3>
 <ul>
-<li>Description of what information the dataset contains</li>
-<li>Details and reasons for the processing steps -&gt; Traceability and ensuring reproducibility</li>
-<li>How can the data be accessed? Description, scripts, tools, …</li>
-<li>…</li>
+<li><strong>Description</strong>: Cleaned and unified dataset combining all rental listings with harmonized schema. Unused fields removed, null values handled.</li>
+<li><strong>Processing steps</strong>:
+<ul>
+<li>Merging listings from Flatfox and UrbanHome</li>
+<li>Filtering to retain only listings with all essential fields (<code>price</code>, <code>rooms</code>, <code>area_sqm</code>, <code>zip_code</code>)</li>
+<li>Normalizing values (e.g., numeric parsing, boolean flags)</li>
+<li>Feature engineering (e.g., <code>price_per_sqm</code>, encoded ZIP region)</li>
+</ul></li>
+<li><strong>Access</strong>: Available in <code>cleaned_data.json</code>. Generated using <a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/data_preparation/data_preparation.py"><code>data_preparation.py</code></a> script in project repo.</li>
 </ul>
-<section id="data-catalogue-1" class="level4">
-<h4 class="anchored" data-anchor-id="data-catalogue-1">Data Catalogue</h4>
 </section>
-<section id="if-applicable-entity-relationship-diagram-1" class="level4">
-<h4 class="anchored" data-anchor-id="if-applicable-entity-relationship-diagram-1">If applicable: Entity Relationship Diagram</h4>
+<section id="data-catalogue-cleaned-listings" class="level3">
+<h3 class="anchored" data-anchor-id="data-catalogue-cleaned-listings">Data Catalogue (Cleaned Listings)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column Index</th>
+<th>Column Name</th>
+<th>Datatype</th>
+<th>Values / Validation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>title</td>
+<td>string</td>
+<td>-</td>
+<td>Listing title</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>address</td>
+<td>string</td>
+<td>-</td>
+<td>Street address</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>zip_code</td>
+<td>int</td>
+<td>1000–9999</td>
+<td>Swiss postal code</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>city</td>
+<td>string</td>
+<td>-</td>
+<td>City name</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>region</td>
+<td>string</td>
+<td>ZH, BE, etc.</td>
+<td>Canton abbreviation</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>price</td>
+<td>float</td>
+<td>&gt; 0</td>
+<td>Rent price or sales price</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>rooms</td>
+<td>float</td>
+<td>&gt; 0</td>
+<td>Number of rooms</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>floor</td>
+<td>int</td>
+<td>&gt;= 0</td>
+<td>Floor number</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>area_sqm</td>
+<td>float</td>
+<td>&gt; 0</td>
+<td>Living area in m²</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>availability_date</td>
+<td>datetime</td>
+<td>ISO 8601</td>
+<td>When available</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>has_balcony</td>
+<td>boolean</td>
+<td>true / false</td>
+<td>Balcony presence</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>description</td>
+<td>string</td>
+<td>-</td>
+<td>Listing description</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>image_urls</td>
+<td>list[string]</td>
+<td>Valid URLs</td>
+<td>Image references</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>is_rental</td>
+<td>boolean</td>
+<td>true</td>
+<td>Rental listing indicator</td>
+</tr>
+</tbody>
+</table>
+<hr>
 </section>
 </section>
-<section id="details-processed-dataset-2" class="level3">
-<h3 class="anchored" data-anchor-id="details-processed-dataset-2">Details Processed Dataset 2</h3>
-<p>…</p>
+<section id="optional-entity-relationship-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="optional-entity-relationship-diagram">(Optional) Entity Relationship Diagram</h2>
+<p><em>Not applicable – data is stored as flat JSON records.</em></p>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
