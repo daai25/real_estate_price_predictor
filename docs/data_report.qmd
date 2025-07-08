@@ -95,28 +95,28 @@ These issues required cleaning steps such as deduplication, type normalization, 
 To better understand the data structure and identify patterns, we conducted an exploratory analysis on the cleaned listings.
 
 ### 📉 Price Distribution
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_price_distribution.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_price_distribution.png)
 
 ### 📏 Area Distribution
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_area_distribution.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_area_distribution.png)
 
 ### 🛏 Room Count Distribution
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_rooms_distribution.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_rooms_distribution.png)
 
 ### 💰 Price per m² Distribution
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_price_per_sqm.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_price_per_sqm.png)
 
 ### 🔗 Feature Correlation Heatmap
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_correlation_heatmap.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_correlation_heatmap.png)
 
 ### 🌍 Average Price by Region
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_avg_price_by_region.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_avg_price_by_region.png)
 
 ### 📝 Description Length vs. Price
-![](https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_description_length_vs_price.png)
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_description_length_vs_price.png)
 
 ### 🧭 3D Plot: Price per m² by Canton and Area
-<iframe src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_3d_price_per_sqm_by_region.html" width="100%" height="600" style="border:none;"></iframe>
+[Open interactive 3D plot (HTML)](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_3d_price_per_sqm_by_region.html)
 
 ---
 
