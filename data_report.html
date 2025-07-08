@@ -155,6 +155,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#data-catalogue-flatfox-and-urbanhome-listings" id="toc-data-catalogue-flatfox-and-urbanhome-listings" class="nav-link" data-scroll-target="#data-catalogue-flatfox-and-urbanhome-listings">Data Catalogue (Flatfox and Urbanhome Listings)</a></li>
   </ul></li>
   <li><a href="#data-quality" id="toc-data-quality" class="nav-link" data-scroll-target="#data-quality">Data Quality</a></li>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</a>
+  <ul class="collapse">
+  <li><a href="#price-distribution" id="toc-price-distribution" class="nav-link" data-scroll-target="#price-distribution">📉 Price Distribution</a></li>
+  <li><a href="#area-distribution" id="toc-area-distribution" class="nav-link" data-scroll-target="#area-distribution">📏 Area Distribution</a></li>
+  <li><a href="#room-count-distribution" id="toc-room-count-distribution" class="nav-link" data-scroll-target="#room-count-distribution">🛏 Room Count Distribution</a></li>
+  <li><a href="#price-per-m²-distribution" id="toc-price-per-m²-distribution" class="nav-link" data-scroll-target="#price-per-m²-distribution">💰 Price per m² Distribution</a></li>
+  <li><a href="#feature-correlation-heatmap" id="toc-feature-correlation-heatmap" class="nav-link" data-scroll-target="#feature-correlation-heatmap">🔗 Feature Correlation Heatmap</a></li>
+  <li><a href="#average-price-by-region" id="toc-average-price-by-region" class="nav-link" data-scroll-target="#average-price-by-region">🌍 Average Price by Region</a></li>
+  <li><a href="#description-length-vs.-price" id="toc-description-length-vs.-price" class="nav-link" data-scroll-target="#description-length-vs.-price">📝 Description Length vs.&nbsp;Price</a></li>
+  <li><a href="#d-plot-price-per-m²-by-canton-and-area" id="toc-d-plot-price-per-m²-by-canton-and-area" class="nav-link" data-scroll-target="#d-plot-price-per-m²-by-canton-and-area">🧭 3D Plot: Price per m² by Canton and Area</a></li>
+  </ul></li>
   <li><a href="#processed-data" id="toc-processed-data" class="nav-link" data-scroll-target="#processed-data">Processed Data</a>
   <ul class="collapse">
   <li><a href="#overview-processed-datasets" id="toc-overview-processed-datasets" class="nav-link" data-scroll-target="#overview-processed-datasets">Overview Processed Datasets</a></li>
@@ -259,7 +270,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Description</strong>: Contains residential real estate listings offered for sale on urbanhome.ch, with structured fields similar to rental data.</li>
 <li><strong>Source/Provider</strong>: UrbanHome.ch</li>
 <li><strong>Procurement</strong>: Collected via a custom web scraping script <code>urbanhome_buy_scraper.py</code></li>
-<li><strong>Reproducibility</strong>: Executable with documented script under the <a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py">Urbanhome Scraper</a> script in the repository</li>
+<li><strong>Reproducibility</strong>: Executable with documented script under the <a href="https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py">Urbanhome Scraper</a></li>
 <li><strong>Legal</strong>: Scraped from publicly accessible offers; non-personal data</li>
 <li><strong>Governance</strong>: Public, business-relevant</li>
 <li><strong>Variable roles</strong>:
@@ -404,6 +415,44 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>These issues required cleaning steps such as deduplication, type normalization, filtering and imputation.</p>
 <hr>
+</section>
+<section id="exploratory-data-analysis-eda" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</h2>
+<p>To better understand the data structure and identify patterns, we conducted an exploratory analysis on the cleaned listings.</p>
+<section id="price-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="price-distribution">📉 Price Distribution</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_price_distribution.png" class="img-fluid"></p>
+</section>
+<section id="area-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="area-distribution">📏 Area Distribution</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_area_distribution.png" class="img-fluid"></p>
+</section>
+<section id="room-count-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="room-count-distribution">🛏 Room Count Distribution</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_rooms_distribution.png" class="img-fluid"></p>
+</section>
+<section id="price-per-m²-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="price-per-m²-distribution">💰 Price per m² Distribution</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_price_per_sqm.png" class="img-fluid"></p>
+</section>
+<section id="feature-correlation-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="feature-correlation-heatmap">🔗 Feature Correlation Heatmap</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_correlation_heatmap.png" class="img-fluid"></p>
+</section>
+<section id="average-price-by-region" class="level3">
+<h3 class="anchored" data-anchor-id="average-price-by-region">🌍 Average Price by Region</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_avg_price_by_region.png" class="img-fluid"></p>
+</section>
+<section id="description-length-vs.-price" class="level3">
+<h3 class="anchored" data-anchor-id="description-length-vs.-price">📝 Description Length vs.&nbsp;Price</h3>
+<p><img src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_description_length_vs_price.png" class="img-fluid"></p>
+</section>
+<section id="d-plot-price-per-m²-by-canton-and-area" class="level3">
+<h3 class="anchored" data-anchor-id="d-plot-price-per-m²-by-canton-and-area">🧭 3D Plot: Price per m² by Canton and Area</h3>
+<iframe src="https://github.com/daai25/real_estate_price_predictor/blob/main/eda/rentals/eda_3d_price_per_sqm_by_region.html" width="100%" height="600" style="border:none;">
+</iframe>
+<hr>
+</section>
 </section>
 <section id="processed-data" class="level2">
 <h2 class="anchored" data-anchor-id="processed-data">Processed Data</h2>
