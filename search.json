@@ -167,7 +167,7 @@
     "href": "data_report.html#exploratory-data-analysis-eda",
     "title": "Data Report",
     "section": "Exploratory Data Analysis (EDA)",
-    "text": "Exploratory Data Analysis (EDA)\nTo better understand the data structure and identify patterns, we conducted an exploratory analysis on the cleaned listings.\n\n📉 Price Distribution\n\n\n\n📏 Area Distribution\n\n\n\n🛏 Room Count Distribution\n\n\n\n💰 Price per m² Distribution\n\n\n\n🔗 Feature Correlation Heatmap\n\n\n\n🌍 Average Price by Region\n\n\n\n📝 Description Length vs. Price\n\n\n\n🧭 3D Plot: Price per m² by Canton and Area\nOpen interactive 3D plot (HTML)",
+    "text": "Exploratory Data Analysis (EDA)\nTo better understand the data structure and identify patterns, we conducted an exploratory analysis on the cleaned listings.\n\n📉 Price Distribution\n\n\n\n📏 Area Distribution\n\n\n\n🛏 Room Count Distribution\n\n\n\n💰 Price per m² Distribution\n\n\n\n🔗 Feature Correlation Heatmap\n\n\n\n🌍 Average Price by Region\n\n\n\n📝 Description Length vs. Price\n\n\n\n🧭 3D Plot: Price per m² by Canton and Area",
     "crumbs": [
       "Data Report"
     ]
