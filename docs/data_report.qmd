@@ -116,8 +116,8 @@ To better understand the data structure and identify patterns, we conducted an e
 ![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_description_length_vs_price.png)
 
 ### 🧭 3D Plot: Price per m² by Canton and Area
-[Open interactive 3D plot (HTML)](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_3d_price_per_sqm_by_region.html)
-
+<iframe src="https://daai25.github.io/real_estate_price_predictor/eda_3d_price_per_sqm_by_region.html
+" width="100%" height="600" style="border:none;"></iframe>
 ---
 
 ## Processed Data
