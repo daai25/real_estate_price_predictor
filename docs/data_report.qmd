@@ -1,58 +1,135 @@
-# Data Report
-All information on the data used in the project is compiled in the data report in order to ensure the traceability and reproducibility of the results and to enable a systematic expansion of the database.
+---
+title: "Data Report"
+format: html
+---
 
-Typically, in the exploratory analysis of the acquired raw data, quality and other issues are identified, which require pre-processing, merging of individual datasets and feature engineering into processed datasets. Therefore, this template provides a separate section for the processed data, which then serves as a starting point for the modelling activities. This needs to be adapted to the specific project requirements.
+All information on the data used in the project is compiled in this data report to ensure the traceability and reproducibility of the results and to enable a systematic expansion of the database.
 
-## Raw data
+Typically, in the exploratory analysis of the acquired raw data, quality and other issues are identified, which require pre-processing, merging of individual datasets and feature engineering into processed datasets. Therefore, this report provides a separate section for the processed data, which then serves as a starting point for the modelling activities.
+
+---
+
+## Raw Data
+
 ### Overview Raw Datasets
-| Name | Quelle | Storage location |
-|----------------|-----------------------------------------|--------------------------------------------------------------------------|
-| Dataset 1      | Name/short description of the data source | Link and/or short description of the location where the data is stored, e.g. accessible to the team |
-| Dataset 2      | …                                       | …                                                                        |
 
-### Details Dataset 1
-- Description of what information the dataset contains
-- Details of the data source/provider
-- Information on data procurement: description and possibly references to resources (download scripts, tools, online services, ...). Any new team member should be able to acquire the data indepentendently following these instructions.
-- Legal aspects of data use, licences, etc.
-- Data governance aspects: Categorisation of the data based on internal business requirements, e.g. public, business-relevant, personal
-- If applicable: categorisation into dependent (target variable, regressor) and independent (regressor) variables
-- ...
+| Name                 | Source                           | Storage Location                             |
+|----------------------|----------------------------------|----------------------------------------------|
+| Flatfox Listings     | flatfox.ch (rental offers)       | [`output_flatfox.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/flatfox/output-flat.json)                        |
+| UrbanHome Rentals    | urbanhome.ch (rental offers)     | [`output_urbanhome.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output.json)                      |
+| UrbanHome Sales      | urbanhome.ch (buy offers)        | [`output_urbanhome_buy.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output_buy.json)                  |
 
-#### Data Catalogue
-The data catalogue basically represents an extended schema of a relational database.
+### Details Dataset 1: Flatfox Listings
 
-| Column index | Column name |  Datatype | Values (Range, validation rules) | Short description |
-|---|---|---|---|---|
-| 1 |   |   |   |   |
-| 2 |   |   |   |   |
-|   |   |   |   |   |
+- **Description**: Contains real estate rental listings scraped from flatfox.ch, including title, address, ZIP code, city, price, rooms, area in sqm, availability, etc.
+- **Source/Provider**: Flatfox.ch
+- **Procurement**: Collected using custom Python scraper using Selenium and BeautifulSoup
+- **Reproducibility**: Team members can rerun scraping using the script in the GitHub repository under [Flatfox Scraper](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/flatfox/flatfox/spiders/flatfox_scraper.py)
+- **Legal**: Only publicly accessible data is used; terms of use must be checked regularly.
+- **Governance**: Business-relevant, anonymized
+- **Variable roles**:
+  - Dependent: `price`
+  - Independent: `rooms`, `area_sqm`, `floor`, `zip_code`, `has_balcony`, `city`
+
+### Details Dataset 2: UrbanHome Rentals
+
+- **Description**: Rental property listings collected from urbanhome.ch, with attributes such as location, price, size, and availability.
+- **Source/Provider**: UrbanHome.ch
+- **Procurement**: Scraped using a Selenium-based Python script; similar structure to Flatfox data
+- **Reproducibility**: Fully reproducible via the [Urbanhome Scraper](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py) script in the repository
+- **Legal**: Publicly available data; periodically verify platform terms of use
+- **Governance**: Public and business-relevant
+- **Variable roles**:
+  - Dependent: `price`
+  - Independent: `rooms`, `area_sqm`, `floor`, `zip_code`, `has_balcony`, `city`
+
+### Details Dataset 3: UrbanHome Sales
+
+- **Description**: Contains residential real estate listings offered for sale on urbanhome.ch, with structured fields similar to rental data.
+- **Source/Provider**: UrbanHome.ch
+- **Procurement**: Collected via a custom web scraping script `urbanhome_buy_scraper.py`
+- **Reproducibility**: Executable with documented script under the [Urbanhome Scraper](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py) script in the repository
+- **Legal**: Scraped from publicly accessible offers; non-personal data
+- **Governance**: Public, business-relevant
+- **Variable roles**:
+  - Dependent: `price`
+  - Independent: `rooms`, `area_sqm`, `zip_code`, `city`, `has_balcony`, `floor`
 
 
-#### If applicable: Entity Relationship Diagram
+### Data Catalogue (Flatfox and Urbanhome Listings)
 
+| Column Index | Column Name       | Datatype     | Values / Validation          | Description                                   |
+|--------------|-------------------|--------------|-------------------------------|-----------------------------------------------|
+| 1            | title             | string       | -                             | Title of the listing                          |
+| 2            | address           | string       | -                             | Street address                                |
+| 3            | zip_code          | int          | 1000 - 9999                   | Swiss ZIP code                                |
+| 4            | city              | string       | -                             | City name                                     |
+| 5            | region            | string       | e.g. ZH, BE                   | Canton abbreviation                           |
+| 6            | price             | float        | > 0                           | Monthly rent or price                         |
+| 7            | rooms             | float        | 0.5 - 10                      | Number of rooms                               |
+| 8            | floor             | int          | >= 0                          | Floor number                                  |
+| 9            | area_sqm          | float        | > 0                           | Living space in square meters                 |
+| 10           | availability_date | datetime     | ISO 8601                      | Start date for availability                   |
+| 11           | has_balcony       | boolean      | true / false                  | Whether the apartment has a balcony           |
+| 12           | description       | string       | -                             | Full text of the listing                      |
+| 13           | image_urls        | list[string] | Valid URLs                    | Image URLs                                    |
+| 14           | is_rental         | boolean      | true                          | Indicates rental properties                   |
 
-#### Data Quality
+---
 
+## Data Quality
+
+During initial exploratory analysis, the following issues were identified:
+
+- Some listings contain missing `price`, `area_sqm`, or `rooms` values.
+- Inconsistencies in `zip_code` formats (some as strings, some as ints)
+- Mixed granularity in `rooms` values (e.g. 1 vs 1.0 vs 1.5 vs 3 ½)
+- Incomplete or overly long free-text `description` fields
+- Duplicate or nearly duplicate entries (due to reposts or scrape overlaps)
+
+These issues required cleaning steps such as deduplication, type normalization, filtering and imputation.
+
+---
 
 ## Processed Data
+
 ### Overview Processed Datasets
-| Name | Quelle | Storage location |
-|----------------|-----------------------------------------|--------------------------------------------------------------------------|
-| Processed Dataset 1      | Name/short description of the data source | Link and/or short description of the location where the data is stored, e.g. accessible to the team |
-| Processed Dataset 2      | …                                       | …                                                                        |
 
-### Details Processed Dataset 1
-- Description of what information the dataset contains
-- Details and reasons for the processing steps -> Traceability and ensuring reproducibility
-- How can the data be accessed? Description, scripts, tools, ...
-- ...
+| Name                | Source               | Storage Location           |
+|---------------------|----------------------|-----------------------------|
+| Cleaned Listings    | Aggregated & cleaned | [`cleaned_data.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/data_preparation/cleaned_data/cleaned_data.json)        |
 
-#### Data Catalogue
+### Details Processed Dataset 1: Cleaned Listings
 
+- **Description**: Cleaned and unified dataset combining all rental listings with harmonized schema. Unused fields removed, null values handled.
+- **Processing steps**:
+  - Merging listings from Flatfox and UrbanHome
+  - Filtering to retain only listings with all essential fields (`price`, `rooms`, `area_sqm`, `zip_code`)
+  - Normalizing values (e.g., numeric parsing, boolean flags)
+  - Feature engineering (e.g., `price_per_sqm`, encoded ZIP region)
+- **Access**: Available in `cleaned_data.json`. Generated using [`data_preparation.py`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/data_preparation/data_preparation.py) script in project repo.
 
-#### If applicable: Entity Relationship Diagram
+### Data Catalogue (Cleaned Listings)
 
+| Column Index | Column Name       | Datatype     | Values / Validation       | Description                                 |
+|--------------|-------------------|--------------|----------------------------|---------------------------------------------|
+| 1            | title             | string       | -                          | Listing title                               |
+| 2            | address           | string       | -                          | Street address                              |
+| 3            | zip_code          | int          | 1000–9999                  | Swiss postal code                           |
+| 4            | city              | string       | -                          | City name                                   |
+| 5            | region            | string       | ZH, BE, etc.               | Canton abbreviation                         |
+| 6            | price             | float        | > 0                        | Rent price or sales price                   |
+| 7            | rooms             | float        | > 0                        | Number of rooms                             |
+| 8            | floor             | int          | >= 0                       | Floor number                                |
+| 9            | area_sqm          | float        | > 0                        | Living area in m²                           |
+| 10           | availability_date | datetime     | ISO 8601                   | When available                              |
+| 11           | has_balcony       | boolean      | true / false               | Balcony presence                            |
+| 12           | description       | string       | -                          | Listing description                         |
+| 13           | image_urls        | list[string] | Valid URLs                 | Image references                            |
+| 14           | is_rental         | boolean      | true                       | Rental listing indicator                    |
 
-### Details Processed Dataset 2
-...
+---
+
+## (Optional) Entity Relationship Diagram
+
+*Not applicable – data is stored as flat JSON records.*
