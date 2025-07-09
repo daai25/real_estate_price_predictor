@@ -100,7 +100,7 @@ def load_data(is_rental_mode=True):
 
 
 # Function to train the regression model and visualize performance
-def train_model(df):
+def train_model(df, n_estimators=200):
     X = df.drop(columns=["price"])  # Features
     y = df["price"]  # Target variable
 
@@ -115,7 +115,7 @@ def train_model(df):
     # Combine preprocessing and regression model in a pipeline
     model = Pipeline([
         ("preprocessing", preprocessor),
-        ("regressor", RandomForestRegressor(n_estimators=100, random_state=42))
+        ("regressor", RandomForestRegressor(n_estimators, random_state=42))
     ])
 
     # Split into training and testing datasets
@@ -210,7 +210,7 @@ if __name__ == "__main__":
 
         # Load data and train model
         df = load_data(is_rental_mode=is_rental)
-        model = train_model(df)
+        model = train_model(df, 200 if mode == "1" else 500)
 
         # Loop for multiple predictions
         while True:
