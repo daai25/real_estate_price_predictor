@@ -17,16 +17,15 @@ class FlatfoxSeleniumSpider(scrapy.Spider):
     name = 'flatfox_selenium'
     allowed_domains = ['flatfox.ch']
     SWISS_CITIES = [
-        "Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Lugano",
-        "Winterthur", "Biel/Bienne", "Thun", "Köniz", "La Chaux-de-Fonds", "Schaffhausen",
-        "Fribourg", "Chur", "Neuchâtel", "Vernier", "Uster", "Sion",
-        "Yverdon-les-Bains", "Zug", "Rapperswil-Jona", "Dietikon", "Montreux", "Frauenfeld", "Wil",
-        "Baar", "Bellinzona", "Carouge", "Locarno", "Meyrin", "Wädenswil", "Wetzikon", "Bulle",
-        "Aarau", "Gossau", "Muttenz", "Kreuzlingen", "Allschwil", "Olten", "Pully", "Burgdorf",
-        "Vevey", "Martigny", "Renens", "Emmen", "Sierre", "Hinwil", "Thalwil", "Romanshorn",
-        "Baden", "Lancy", "Pfäffikon", "Arbon", "Solothurn", "Steffisburg", "Neuenhof",
-        "Glarus", "Chiasso", "Schwyz", "Liestal", "Brig", "Herisau"
-    ]
+    "Aarau", "Allschwil", "Arbon", "Baar", "Baden", "Basel", "Bellinzona", "Bern", "Biel/Bienne",
+    "Brig", "Bulle", "Burgdorf", "Carouge", "Chiasso", "Chur", "Dietikon", "Emmen", "Frauenfeld",
+    "Fribourg", "Geneva", "Glarus", "Gossau", "Herisau", "Hinwil", "Köniz", "Kreuzlingen",
+    "La Chaux-de-Fonds", "Lausanne", "Lancy", "Liestal", "Locarno", "Lucerne", "Lugano",
+    "Martigny", "Meyrin", "Montreux", "Muttenz", "Neuchâtel", "Neuenhof", "Olten", "Pfäffikon",
+    "Pully", "Rapperswil-Jona", "Renens", "Romanshorn", "Schaffhausen", "Schwyz", "Sierre",
+    "Sion", "Solothurn", "St. Gallen", "Steffisburg", "Thalwil", "Thun", "Uster", "Vevey",
+    "Vernier", "Wädenswil", "Wetzikon", "Wil", "Winterthur", "Yverdon-les-Bains", "Zug", "Zurich"
+]
 
     def __init__(self):
         """
