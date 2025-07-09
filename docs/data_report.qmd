@@ -15,9 +15,9 @@ Typically, in the exploratory analysis of the acquired raw data, quality and oth
 
 | Name                 | Source                           | Storage Location                             |
 |----------------------|----------------------------------|----------------------------------------------|
-| Flatfox Listings     | flatfox.ch (rental offers)       | [`output_flatfox.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/flatfox/output-flat.json)                        |
-| UrbanHome Rentals    | urbanhome.ch (rental offers)     | [`output_urbanhome.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output.json)                      |
-| UrbanHome Sales      | urbanhome.ch (buy offers)        | [`output_urbanhome_buy.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output_buy.json)                  |
+| Flatfox Listings     | flatfox.ch (rental offers)       | [`output_flatfox.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/flatfox/output-flat.json) |
+| UrbanHome Rentals    | urbanhome.ch (rental offers)     | [`output_urbanhome.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output.json) |
+| UrbanHome Sales      | urbanhome.ch (buy offers)        | [`output_urbanhome_buy.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/output_buy.json) |
 
 ### Details Dataset 1: Flatfox Listings
 
@@ -48,13 +48,12 @@ Typically, in the exploratory analysis of the acquired raw data, quality and oth
 - **Description**: Contains residential real estate listings offered for sale on urbanhome.ch, with structured fields similar to rental data.
 - **Source/Provider**: UrbanHome.ch
 - **Procurement**: Collected via a custom web scraping script `urbanhome_buy_scraper.py`
-- **Reproducibility**: Executable with documented script under the [Urbanhome Scraper](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py) script in the repository
+- **Reproducibility**: Executable with documented script under the [Urbanhome Scraper](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/urbanhome/urbanhome/spiders/properties.py)
 - **Legal**: Scraped from publicly accessible offers; non-personal data
 - **Governance**: Public, business-relevant
 - **Variable roles**:
   - Dependent: `price`
   - Independent: `rooms`, `area_sqm`, `zip_code`, `city`, `has_balcony`, `floor`
-
 
 ### Data Catalogue (Flatfox and Urbanhome Listings)
 
@@ -91,13 +90,43 @@ These issues required cleaning steps such as deduplication, type normalization, 
 
 ---
 
+## Exploratory Data Analysis (EDA)
+
+To better understand the data structure and identify patterns, we conducted an exploratory analysis on the cleaned listings.
+
+### 📉 Price Distribution
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_price_distribution.png)
+
+### 📏 Area Distribution
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_area_distribution.png)
+
+### 🛏 Room Count Distribution
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_rooms_distribution.png)
+
+### 💰 Price per m² Distribution
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_price_per_sqm.png)
+
+### 🔗 Feature Correlation Heatmap
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_correlation_heatmap.png)
+
+### 🌍 Average Price by Region
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_avg_price_by_region.png)
+
+### 📝 Description Length vs. Price
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/eda/rentals/eda_description_length_vs_price.png)
+
+### 🧭 3D Plot: Price per m² by Canton and Area
+<iframe src="eda_3d_price_per_sqm_by_region.html" width="100%" height="600" style="border:none;"></iframe>
+
+---
+
 ## Processed Data
 
 ### Overview Processed Datasets
 
 | Name                | Source               | Storage Location           |
 |---------------------|----------------------|-----------------------------|
-| Cleaned Listings    | Aggregated & cleaned | [`cleaned_data.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/data_preparation/cleaned_data/cleaned_data.json)        |
+| Cleaned Listings    | Aggregated & cleaned | [`cleaned_data.json`](https://github.com/daai25/real_estate_price_predictor/blob/main/data_acquisition/data_preparation/cleaned_data/cleaned_data.json) |
 
 ### Details Processed Dataset 1: Cleaned Listings
 
