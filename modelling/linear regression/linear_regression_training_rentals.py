@@ -1,7 +1,13 @@
-from typing import Tuple, Any
+# Standard library
+from datetime import datetime
+from typing import Tuple, Any, List, Optional
+import os
+
+# Third-party libraries
+import joblib
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -9,11 +15,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+
+# Project-specific
 from database.select_data import get_all_properties
-from datetime import datetime
-import pandas as pd
-import numpy as np
-from typing import List, Optional
+
 # Constants
 RANDOM_SEED = 0x0
 PRICE_MIN_THRESHOLD = 500
@@ -98,7 +103,7 @@ class RegressionModel:
         # Train model and calculate metrics
         self.model = pipeline.fit(X_train, y_train)
         self._evaluate_model(X_train, X_test, y_train, y_test)
-        self._visualize_predictions(X_train, X_test, y_train, y_test)
+
 
     def _evaluate_model(self, X_train, X_test, y_train, y_test) -> None:
         """Calculate and print model evaluation metrics."""
@@ -116,7 +121,7 @@ class RegressionModel:
         print(f"Test RMSE: {rmse:.2f} CHF")
         print(f"R²: {r2:.2f}")
 
-    def _visualize_predictions(self, X_train, X_test, y_train, y_test) -> None:
+    def visualize_predictions(self, X_train, X_test, y_train, y_test) -> None:
         """Create visualization of model predictions."""
         y_hat_train = self.model.predict(X_train)
         y_hat_test = self.model.predict(X_test)
@@ -140,6 +145,15 @@ class RegressionModel:
         plt.tight_layout()
         plt.show()
 
+    def save_model(self, model, model_name) -> None:
+        """Save the trained model and preprocessor to disk."""
+        save_name = f"{model_name}.pkl"
+        joblib.dump(model, save_name)
+        joblib.dump(self.preprocessor, f"{model_name}_preprocessor.pkl")
+        # Verify save file
+        if not (os.path.exists(save_name) and os.path.exists(f"{model_name}_preprocessor.pkl")):
+            raise FileNotFoundError("Model or preprocessor file not found after saving.")
+        print("Model and preprocessor saved successfully.")
 
 
 
@@ -254,7 +268,7 @@ if __name__ == "__main__":
     # Initialize and train the regression model
     regression_model = RegressionModel()
     regression_model.train(df)
-
+    regression_model.save_model(regression_model, "linear_regression_model")
     print("Now enter new property data for prediction:")
 
     # Example input for prediction (replace with actual input logic)
