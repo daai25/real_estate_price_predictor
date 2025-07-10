@@ -1,7 +1,13 @@
-from typing import Tuple, Any
+# Standard library
+from datetime import datetime
+from typing import Tuple, Any, List, Optional
+import os
+
+# Third-party libraries
+import joblib
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -9,11 +15,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+
+# Project-specific
 from database.select_data import get_all_properties
-from datetime import datetime
-import pandas as pd
-import numpy as np
-from typing import List, Optional
+
 # Constants
 RANDOM_SEED = 0x0
 PRICE_MIN_THRESHOLD = 500
@@ -98,7 +103,7 @@ class RegressionModel:
         # Train model and calculate metrics
         self.model = pipeline.fit(X_train, y_train)
         self._evaluate_model(X_train, X_test, y_train, y_test)
-        self._visualize_predictions(X_train, X_test, y_train, y_test)
+
 
     def _evaluate_model(self, X_train, X_test, y_train, y_test) -> None:
         """Calculate and print model evaluation metrics."""
@@ -116,7 +121,7 @@ class RegressionModel:
         print(f"Test RMSE: {rmse:.2f} CHF")
         print(f"R²: {r2:.2f}")
 
-    def _visualize_predictions(self, X_train, X_test, y_train, y_test) -> None:
+    def visualize_predictions(self, X_train, X_test, y_train, y_test) -> None:
         """Create visualization of model predictions."""
         y_hat_train = self.model.predict(X_train)
         y_hat_test = self.model.predict(X_test)
@@ -140,6 +145,15 @@ class RegressionModel:
         plt.tight_layout()
         plt.show()
 
+    def save_model(self, model, model_name) -> None:
+        """Save the trained model and preprocessor to disk."""
+        save_name = f"{model_name}.pkl"
+        joblib.dump(model, save_name)
+        joblib.dump(self.preprocessor, f"{model_name}_preprocessor.pkl")
+        # Verify save file
+        if not (os.path.exists(save_name) and os.path.exists(f"{model_name}_preprocessor.pkl")):
+            raise FileNotFoundError("Model or preprocessor file not found after saving.")
+        print("Model and preprocessor saved successfully.")
 
 
 
@@ -247,36 +261,121 @@ class PropertyDataLoader:
             )
         )
 
+def request_input():
+    """
+    Prompts the user for property information and converts the input into a structured
+    DataFrame object suitable for further processing or analysis.
+
+    This function collects various details about a property through a series of input prompts,
+    validates basic types through input casting, and organizes them into a single structured
+    pandas DataFrame. The captured information includes geographic, spatial, and usage data.
+
+    Returns:
+        pandas.DataFrame: A DataFrame containing the structured property information from user input.
+    """
+    try:
+        city = input("City: ").strip()
+
+        if city and city.isalpha():
+            print(f"Valid city: {city}")
+        else:
+            print("Invalid input: please enter a city name with letters only.")
+        region = input("Region: ").strip()
+        if region and region.isalpha() and len(region) == 2:
+            print(f"Valid region: {region}")
+        else:
+            print("Invalid input: please enter a region name with two letters only.")
+        zip_code = int(input("Zip Code: "))
+        if 1000 <= zip_code <= 9999:
+            print(f"Valid zip code: {zip_code}")
+        else:
+            print("Invalid input: please enter a zip code with four digits only.")
+        rooms = float(input("Number of Rooms: "))
+        if rooms > 0:
+            print(f"Valid number of rooms: {rooms}")
+        else:
+            print("Invalid input: please enter a positive number for rooms.")
+        floor = int(input("Floor: "))
+        if floor >= 0:
+            print(f"Valid floor: {floor}")
+        else:
+            print("Invalid input: please enter a non-negative integer for floor.")
+        area_sqm = float(input("Area in sqm: "))
+        if area_sqm > 0:
+            print(f"Valid area: {area_sqm} sqm")
+        else:
+            print("Invalid input: please enter a positive number for area in sqm.")
+        has_balcony = input("Has Balcony (yes/no): ").strip().lower() == 'yes'
+        valid_input_balcony = ["yes", "no"]
+        if has_balcony in valid_input_balcony:
+            print("Balcony: Valid input")
+        else:
+            print("Invalid input: please enter 'yes' or 'no' for balcony.")
+        is_rental = input("Is Rental (yes/no): ").strip().lower() == 'yes'
+        valid_input_rental = ["yes", "no"]
+        if is_rental in valid_input_rental:
+            print("Rental: Valid input")
+        else:
+            print("Invalid input: please enter 'yes' or 'no' for rental.")
+        availability_days_from_now = int(input("Availability Days from Now: "))
+        if availability_days_from_now >= 0:
+            print(f"Valid availability days: {availability_days_from_now}")
+        else:
+            print("Invalid input: please enter a non-negative integer for availability days.")
+        latitude = float(input("Latitude: "))
+        if -90 <= latitude <= 90:
+            print(f"Valid latitude: {latitude}")
+        else:
+            print("Invalid input: please enter a latitude between -90 and 90 degrees.")
+        longitude = float(input("Longitude: "))
+        if -180 <= longitude <= 180:
+            print(f"Valid longitude: {longitude}")
+        else:
+            print("Invalid input: please enter a longitude between -180 and 180 degrees.")
+    except ValueError:
+        print("Invalid input. Please enter the correct data types.")
+    try:
+        new_property_data = {
+            "city": city,
+            "region": region,
+            "zip_code": zip_code,
+            "rooms": rooms,
+            "floor": floor,
+            "area_sqm": area_sqm,
+            "has_balcony": has_balcony,
+            "is_rental": is_rental,
+            "availability_days_from_now": availability_days_from_now,
+            "latitude": latitude,
+            "longitude": longitude
+            }
+        new_df = pd.DataFrame([new_property_data])
+        return new_df
+    except ValueError:
+        print("Error creating DataFrame from input data. Please check the input values.")
+        return pd.DataFrame()
 if __name__ == "__main__":
+    model_name = "linear_regression_model"
     # Load data
     df = PropertyDataLoader().load_data()
 
     # Initialize and train the regression model
-    regression_model = RegressionModel()
-    regression_model.train(df)
-
+    # If model exists, it will be loaded; otherwise, a new model will be trained
+    if os.path.exists(f"{model_name}.pkl") and os.path.exists(f"{model_name}_preprocessor.pkl"):
+        print("Loading existing model...")
+        regression_model = joblib.load(f"{model_name}.pkl")
+        regression_model.preprocessor = joblib.load(f"{model_name}_preprocessor.pkl")
+    else:
+        print("Training new model...")
+        regression_model = RegressionModel()
+        regression_model.train(df)
+        regression_model.save_model(regression_model, "linear_regression_model")
     print("Now enter new property data for prediction:")
 
-    # Example input for prediction (replace with actual input logic)
-    new_property_data = {
-        "city": "Zurich",
-        "region": "Zürich",
-        "zip_code": 8001,
-        "rooms": 3.5,
-        "floor": 2,
-        "area_sqm": 80,
-        "has_balcony": True,
-        "is_rental": True,
-        "availability_days_from_now": 30,
-        "latitude": 47.3769,
-        "longitude": 8.5417
-    }
+    properties_df = request_input()
 
-    # Convert to DataFrame for prediction
-    new_df = pd.DataFrame([new_property_data])
-    property_loader = PropertyDataLoader(new_df)
+    property_loader = PropertyDataLoader(properties_df)
     processed_df = property_loader.load_data()  # Get the processed DataFrame
 
     # Predict price using the processed DataFrame
     predicted_price = regression_model.model.predict(processed_df)
-    print(f"Predicted Price: CHF {int(predicted_price[0]):,}")
+    print("\033[91mPredicted Price: CHF \033[0m", f"\033[92m{predicted_price[0]:.0f}\033[0m")
