@@ -12,6 +12,14 @@ admin_conn = psycopg2.connect(
 admin_conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 admin_cur = admin_conn.cursor()
 
+# Step 0: Check if the database already exists and drop it.
+try:
+    admin_cur.execute("DROP DATABASE IF EXISTS real_estate_price_predictor;")
+    print("Dropped existing database.")
+except psycopg2.errors.InvalidCatalogName:
+    print("Database does not exist, proceeding to create a new one.")
+
+
 # Step 1: Create database
 try:
     admin_cur.execute("CREATE DATABASE real_estate_price_predictor;")
@@ -60,7 +68,12 @@ CREATE TABLE IF NOT EXISTS properties (
     availability_date DATE,
     has_balcony BOOLEAN,
     description TEXT,
-    is_rental BOOLEAN
+    is_rental BOOLEAN,
+    is_new BOOLEAN,
+    has_view BOOLEAN,
+    has_garden BOOLEAN,
+    has_parking BOOLEAN,
+    has_air_conditioning BOOLEAN
 );
 """)
 

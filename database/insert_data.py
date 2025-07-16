@@ -35,9 +35,9 @@ def insert_data():
             cur.execute("""
                 INSERT INTO properties (
                     title, address, zip_code, city, region, price, rooms,
-                    area_sqm, floor, availability_date, has_balcony, description, is_rental
+                    area_sqm, floor, availability_date, has_balcony, description, is_rental, is_new, has_view, has_garden, has_parking, has_air_conditioning
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id;
             """, (
                 prop['title'],
@@ -52,7 +52,12 @@ def insert_data():
                 prop['availability_date'],
                 prop['has_balcony'],
                 prop['description'],
-                prop['is_rental']
+                prop['is_rental'],
+                is_new(prop['description']),
+                has_view(prop['description']),
+                has_garden(prop['description']),
+                has_parking(prop['description']),
+                has_air_conditioning(prop['description'] )
             ))
 
             property_id = cur.fetchone()[0]
@@ -67,6 +72,90 @@ def insert_data():
         conn.commit()
         conn.close()
         print("All data inserted successfully.")
+
+
+def hash_description(description: str):
+    hash = set(description.lower().rsplit())
+    return hash
+
+
+def is_new(description):
+
+    # Having repeated values here will not affect memory usage
+    new_synomys = {
+        # French
+        'neuf', 'neuve', 'neufs', 'neuves', 'neufve', 'neufves', 'neuf', 'nouveau', 'nouvelle', 'rénové', 'rénovée', 'rénovées', 'rénovation', 'moderne', 'restauré', 'restaurée', 'restaurées', 'restauration', 'refait', 'refaite', 'refaites', 'refait à neuf', 'neuf', 'neuve', 'neuves', 'neufs',
+        # German
+        'neu', 'neues', 'neuer', 'neuem', 'neuen', 'modern', 'modernisiert', 'renoviert', 'saniert', 'erneuert', 'restauriert', 'neubau', 'neubauten',
+        # English
+        'new', 'modern', 'renovated', 'renewed', 'refurbished', 'restored', 'recently renovated', 'brand new', 'fully renovated', 'newly built', 'new build',
+        # Italian
+        'nuovo', 'nuova', 'nuovi', 'nuove', 'moderno', 'moderna', 'moderni', 'moderne', 'rinnovato', 'rinnovata', 'rinnovati', 'rinnovate', 'ristrutturato', 'ristrutturata', 'ristrutturati', 'ristrutturate', 'restaurato', 'restaurata', 'restaurati', 'restaurate'
+    }
+    
+    hash = hash_description(description)
+
+    return bool(hash.intersection(new_synomys)) # if the intersection is not empty then it will be true
+
+def has_view(description):
+
+    # Having repeated values here will not affect memory usage
+    view_synomys = {
+        # French
+        'vue', 'panoramique', 'imprenable', 'dégagée', 'sur lac', 'sur montagne', 'sur jardin', 'sur parc', 'vue mer', 'vue montagne', 'vue lac',
+        # German
+        'aussicht', 'blick', 'panoramablick', 'seeblick', 'bergsicht', 'gartenblick', 'parkblick', 'meerblick',
+        # English
+        'view', 'panoramic', 'unobstructed',
+        # Italian
+        'vista', 'panoramica', 'vista lago',
+    }
+    hash = hash_description(description)
+
+    return bool(hash.intersection(view_synomys)) # if the intersection is not empty then it will be true
+
+
+def has_garden(description):
+    garden_synomys = {
+        # French
+        'jardin', 'parc', 'pelouse', 'verger',
+        # German
+        'garten', 'park', 'rasen', 'obstgarten',
+        # English
+        'garden', 'park', 'lawn', 'orchard',
+        # Italian
+        'giardino', 'parco', 'prato', 'frutteto'
+    }
+    hash = hash_description(description)
+    return bool(hash.intersection(garden_synomys))
+
+def has_parking(description):
+    parking_synomys = {
+        # French
+        'parking', 'garage', 'stationnement', 'place de parc', 'box',
+        # German
+        'parkplatz', 'garage', 'stellplatz', 'carport',
+        # English
+        'parking', 'garage', 'parking space', 'carport',
+        # Italian
+        'parcheggio', 'garage', 'posto auto', 'box'
+    }
+    hash = hash_description(description)
+    return bool(hash.intersection(parking_synomys))
+
+def has_air_conditioning(description):
+    ac_synomys = {
+        # French
+        'climatisation', 'climatiseur', 'air conditionné',
+        # German
+        'klimaanlage', 'klimagerät', 'air conditioning',
+        # English
+        'air conditioning', 'ac', 'air conditioner',
+        # Italian
+        'aria condizionata', 'condizionatore', 'climatizzazione'
+    }
+    hash = hash_description(description)
+    return bool(hash.intersection(ac_synomys))
 
 if __name__ == "__main__":
     insert_data()
