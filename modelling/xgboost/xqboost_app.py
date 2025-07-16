@@ -2,20 +2,31 @@ import pickle
 import numpy as np
 import pandas as pd
 from geopy.geocoders import Nominatim
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
 import xgboost as xgb
+
+kauf_model = xgb.XGBRegressor()
+kauf_model.load_model(os.path.join(script_dir, "xgboost_kauf_model.json"))
 
 # Modelle laden
 miete_model = xgb.XGBRegressor()
-miete_model.load_model("xgboost_miete_model.json")
-
+miete_model.load_model(os.path.join(script_dir, "xgboost_miete_model.json"))
 kauf_model = xgb.XGBRegressor()
-kauf_model.load_model("xgboost_kauf_model.json")
+kauf_model.load_model(os.path.join(script_dir, "xgboost_kauf_model.json"))
 
-with open("kmeans.pkl", "rb") as f:
+
+with open(os.path.join(script_dir, "kmeans.pkl"), "rb") as f:
     kmeans = pickle.load(f)
 
-with open("ohe.pkl", "rb") as f:
+with open(os.path.join(script_dir, "ohe.pkl"), "rb") as f:
     ohe = pickle.load(f)
+
+# Load feature names for both models
+with open(os.path.join(script_dir, "xgboost_miete_feature_names.pkl"), "rb") as f:
+    miete_feature_names = pickle.load(f)
+with open(os.path.join(script_dir, "xgboost_kauf_feature_names.pkl"), "rb") as f:
+    kauf_feature_names = pickle.load(f)
 
 geolocator = Nominatim(user_agent="real_estate_predictor")
 
@@ -70,16 +81,18 @@ def predict_price(user_input: dict, mode: str):
     X_cat = ohe.transform(df[cat_cols])
     X_num = df.drop(columns=cat_cols).copy()
 
-    X_final = np.hstack([X_num.values, X_cat])
+    # Combine and align features
+    all_features = list(X_num.columns) + list(ohe.get_feature_names_out(cat_cols))
+    X_final_df = pd.DataFrame(np.hstack([X_num.values, X_cat]), columns=all_features)
 
-    log_pred = None
     if mode == "miete":
-        log_pred = miete_model.predict(X_final)[0]
+        X_final_df = X_final_df.reindex(columns=miete_feature_names, fill_value=0)
+        log_pred = miete_model.predict(X_final_df.values)[0]
     else:
-        log_pred = kauf_model.predict(X_final)[0]
+        X_final_df = X_final_df.reindex(columns=kauf_feature_names, fill_value=0)
+        log_pred = kauf_model.predict(X_final_df.values)[0]
 
     pred = np.expm1(log_pred)
-
     return pred
 
 

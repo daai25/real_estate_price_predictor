@@ -11,6 +11,19 @@ from sklearn.cluster import KMeans
 import xgboost as xgb
 import matplotlib.pyplot as plt
 
+def augment_with_noise(df, condition_col, condition_val=1, n_aug=300):
+    rare = df[df[condition_col] == condition_val]
+    if rare.empty:
+        return df
+    # Resample rare cases
+    augmented = rare.sample(n=min(n_aug, len(rare)), replace=True)
+    numeric_cols = augmented.select_dtypes(include=np.number).columns
+    # Apply multiplicative noise
+    noise = np.random.normal(loc=0.0, scale=0.03, size=augmented[numeric_cols].shape)
+    augmented[numeric_cols] = augmented[numeric_cols] * (1 + noise)
+    # Concatenate with original data
+    return pd.concat([df, augmented], ignore_index=True)
+
 # DB-Verbindung
 conn = psycopg2.connect(
     dbname="real_estate_price_predictor",
@@ -61,26 +74,15 @@ for kw in keywords:
 miete_df = df[df['price'] <= 20000].copy()
 kauf_df = df[df['price'] > 20000].copy()
 
-# Augmentationsfunktion
-def augment(df, n_copies=3):
-    augmented = []
-    for _, row in df.iterrows():
-        for _ in range(n_copies):
-            noise = row.copy()
-            noise['rooms'] += np.random.normal(0, 0.1)
-            noise['area_sqm'] += np.random.normal(0, 2.0)
-            noise['floor'] += np.random.choice([-1, 0, 1])
-            noise['price'] *= np.random.uniform(0.97, 1.03)
-            noise['price_per_sqm'] = noise['price'] / noise['area_sqm']
-            noise['room_size'] = noise['area_sqm'] / noise['rooms']
-            augmented.append(noise)
-    return pd.DataFrame(augmented)
+for _ in range(20):
+        for col in ["room_size", "price_per_sqm", "area_sqm"]:
+            miete_df = augment_with_noise(df, condition_col=col, condition_val=1)
+            
+for _ in range(20):
+        for col in ["room_size", "price_per_sqm", "area_sqm"]:
+            kauf_df = augment_with_noise(df, condition_col=col, condition_val=1)
 
-miete_aug = augment(miete_df, n_copies=3)
-miete_df = pd.concat([miete_df, miete_aug], ignore_index=True)
-
-kauf_aug = augment(kauf_df, n_copies=3)
-kauf_df = pd.concat([kauf_df, kauf_aug], ignore_index=True)
+import os
 
 # Trainingsfunktion
 def train_model(data, name):
@@ -95,8 +97,17 @@ def train_model(data, name):
     X_cat = ohe.fit_transform(X[cat_cols])
     cat_feature_names = ohe.get_feature_names_out(cat_cols)
 
+
     X_num = X.drop(columns=cat_cols).copy()
     X_num['has_balcony'] = X_num['has_balcony'].astype(int)
+
+    # Save all files in the same directory as this script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Save feature names (numerical + one-hot encoded)
+    feature_names = list(X_num.columns) + list(cat_feature_names)
+    with open(os.path.join(script_dir, f"xgboost_{name.lower()}_feature_names.pkl"), "wb") as f:
+        pickle.dump(feature_names, f)
 
     X_final = np.hstack([X_num.values, X_cat])
 
@@ -131,30 +142,14 @@ def train_model(data, name):
     print(f"{name} MAE: {mae:.2f}")
     print(f"{name} R²: {r2:.2f}")
 
-    # Feature Importances
-    xgb.plot_importance(best_model, max_num_features=10, importance_type='weight')
-    plt.title(f"Feature Importance: {name}")
-    plt.tight_layout()
-    plt.show()
-
-    # NEW: Scatterplot Actual vs Predicted
-    plt.figure(figsize=(8, 6))
-    plt.scatter(y_test_exp, y_pred_exp, alpha=0.5)
-    plt.plot([y_test_exp.min(), y_test_exp.max()], [y_test_exp.min(), y_test_exp.max()], 'r--')
-    plt.xlabel("Actual Price (CHF)")
-    plt.ylabel("Predicted Price (CHF)")
-    plt.title(f"Actual vs Predicted Prices: {name}")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
-
-    best_model.save_model(f"xgboost_{name.lower()}_model.json")
-    print(f"Best Modell {name} gespeichert als xgboost_{name.lower()}_model.json")
+    model_path = os.path.join(script_dir, f"xgboost_{name.lower()}_model.json")
+    best_model.save_model(model_path)
+    print(f"Best Modell {name} gespeichert als {model_path}")
 
     if name == "Miete":
-        with open("kmeans.pkl", "wb") as f:
+        with open(os.path.join(script_dir, "kmeans.pkl"), "wb") as f:
             pickle.dump(kmeans, f)
-        with open("ohe.pkl", "wb") as f:
+        with open(os.path.join(script_dir, "ohe.pkl"), "wb") as f:
             pickle.dump(ohe, f)
 
 train_model(miete_df, "Miete")
