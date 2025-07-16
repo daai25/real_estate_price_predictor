@@ -57,7 +57,7 @@ def insert_data():
                 has_view(prop['description']),
                 has_garden(prop['description']),
                 has_parking(prop['description']),
-                has_air_conditioning(prop['description'] )
+                has_air_conditioning(prop['description'])
             ))
 
             property_id = cur.fetchone()[0]
@@ -75,14 +75,14 @@ def insert_data():
 
 
 def hash_description(description: str):
-    hash = set(description.lower().rsplit())
+    hash = set(description.lower().split())
     return hash
 
 
 def is_new(description):
 
     # Having repeated values here will not affect memory usage
-    new_synomys = {
+    new_synonyms = {
         # French
         'neuf', 'neuve', 'neufs', 'neuves', 'neufve', 'neufves', 'neuf', 'nouveau', 'nouvelle', 'rénové', 'rénovée', 'rénovées', 'rénovation', 'moderne', 'restauré', 'restaurée', 'restaurées', 'restauration', 'refait', 'refaite', 'refaites', 'refait à neuf', 'neuf', 'neuve', 'neuves', 'neufs',
         # German
@@ -95,12 +95,12 @@ def is_new(description):
     
     hash = hash_description(description)
 
-    return bool(hash.intersection(new_synomys)) # if the intersection is not empty then it will be true
+    return bool(hash.intersection(new_synonyms)) # if the intersection is not empty then it will be true
 
 def has_view(description):
 
     # Having repeated values here will not affect memory usage
-    view_synomys = {
+    view_synonyms = {
         # French
         'vue', 'panoramique', 'imprenable', 'dégagée', 'sur lac', 'sur montagne', 'sur jardin', 'sur parc', 'vue mer', 'vue montagne', 'vue lac',
         # German
@@ -112,11 +112,11 @@ def has_view(description):
     }
     hash = hash_description(description)
 
-    return bool(hash.intersection(view_synomys)) # if the intersection is not empty then it will be true
+    return bool(hash.intersection(view_synonyms)) # if the intersection is not empty then it will be true
 
 
 def has_garden(description):
-    garden_synomys = {
+    garden_synonyms = {
         # French
         'jardin', 'parc', 'pelouse', 'verger',
         # German
@@ -127,10 +127,10 @@ def has_garden(description):
         'giardino', 'parco', 'prato', 'frutteto'
     }
     hash = hash_description(description)
-    return bool(hash.intersection(garden_synomys))
+    return bool(hash.intersection(garden_synonyms))
 
 def has_parking(description):
-    parking_synomys = {
+    parking_synonyms = {
         # French
         'parking', 'garage', 'stationnement', 'place de parc', 'box',
         # German
@@ -141,10 +141,10 @@ def has_parking(description):
         'parcheggio', 'garage', 'posto auto', 'box'
     }
     hash = hash_description(description)
-    return bool(hash.intersection(parking_synomys))
+    return bool(hash.intersection(parking_synonyms))
 
 def has_air_conditioning(description):
-    ac_synomys = {
+    ac_synonyms = {
         # French
         'climatisation', 'climatiseur', 'air conditionné',
         # German
@@ -155,7 +155,7 @@ def has_air_conditioning(description):
         'aria condizionata', 'condizionatore', 'climatizzazione'
     }
     hash = hash_description(description)
-    return bool(hash.intersection(ac_synomys))
+    return bool(hash.intersection(ac_synonyms))
 
 if __name__ == "__main__":
     insert_data()
