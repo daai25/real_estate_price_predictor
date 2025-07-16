@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-    
+
       - name: Install librsvg
         run: sudo apt-get install librsvg2-bin
 
@@ -21,6 +21,16 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true
+
+      - name: Set up Python and install Jupyter
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'  # or 3.11/3.10 if compatibility needed
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter nbformat ipykernel
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
