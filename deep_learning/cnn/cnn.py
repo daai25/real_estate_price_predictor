@@ -13,8 +13,8 @@ import torch.nn as nn
 from torchvision import models, transforms
 
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_absolute_error
+from sklearn.model_selection import GridSearchCV, KFold, train_test_split
+from sklearn.metrics import make_scorer, mean_absolute_error, r2_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -61,6 +61,48 @@ image_transform = transforms.Compose([
 ])
 
 
+def verify_image_files_match_database(images_df: pd.DataFrame, image_folder: str):
+    """
+    Verifies that downloaded image filenames match (property_id, image_id) pairs in the database.
+    Logs missing or unmatched images.
+    """
+    # Set of valid (property_id, image_id) tuples from DB
+    valid_pairs = {
+        (str(row['property_id']), str(row['id']))
+        for _, row in images_df.iterrows()
+    }
+
+    # Set of (property_id, image_id) from downloaded files
+    downloaded_pairs = set()
+    for fname in os.listdir(image_folder):
+        if fname.lower().endswith('.jpg'):
+            name = fname[:-4]  # strip '.jpg'
+            if '-' in name:
+                pid, imgid = name.split('-', 1)
+                downloaded_pairs.add((pid, imgid))
+
+    # Compare
+    missing_in_drive = valid_pairs - downloaded_pairs
+    extra_in_drive = downloaded_pairs - valid_pairs
+
+    print(f"✅ Total DB image records: {len(valid_pairs)}")
+    print(f"📂 Total downloaded image files: {len(downloaded_pairs)}")
+
+    if missing_in_drive:
+        print(f"⚠️ {len(missing_in_drive)} image(s) missing in drive:")
+        for pid, imgid in sorted(missing_in_drive)[:10]:  # show only first 10
+            print(f"  - Missing: {pid}-{imgid}.jpg")
+
+    if extra_in_drive:
+        print(f"⚠️ {len(extra_in_drive)} extra image(s) in drive not in DB:")
+        for pid, imgid in sorted(extra_in_drive)[:10]:  # show only first 10
+            print(f"  - Unmatched: {pid}-{imgid}.jpg")
+
+    if not missing_in_drive and not extra_in_drive:
+        print("✅ All downloaded images match the database entries.")
+        
+        
+        
 def download_image(url: str, output_path: str):
     if not os.path.exists(output_path):
         gdown.download(url, output_path, quiet=False)
@@ -105,20 +147,30 @@ def extract_image_features(df: pd.DataFrame, id_col="id", url_col="image_urls") 
     return image_df.reset_index(drop=True)
 
 
-# === DESCRIPTION CLUSTERING ===
-def generate_description_clusters(df: pd.DataFrame, n_clusters: int = N_CLUSTERS) -> pd.Series:
-    tfidf = TfidfVectorizer(max_features=1000, stop_words='english')
-    X = tfidf.fit_transform(df["description"].fillna(""))
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    return kmeans.fit_predict(X)
+
+# === DESCRIPTION CLUSTERING (from KNN script) ===
+def vectorize_descriptions(df: pd.DataFrame, max_features: int = 1000):
+    vectorizer = TfidfVectorizer(max_features=max_features, stop_words='english')
+    X = vectorizer.fit_transform(df['description'].fillna(""))
+    terms = vectorizer.get_feature_names_out()
+    return X, vectorizer, terms
 
 
-# === STRUCTURED PREPROCESSING ===
+def perform_kmeans(X, n_clusters: int = 10, random_state: int = 42):
+    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state)
+    cluster_labels = kmeans.fit_predict(X)
+    return kmeans, cluster_labels
+
+
+
+# === STRUCTURED PREPROCESSING (from Random Forest script) ===
 def preprocess_structured_data(df: pd.DataFrame, is_rental_mode: bool = True) -> pd.DataFrame:
     df = df[df["price"].notnull()]
-    df["availability_date"] = pd.to_datetime(df.get("availability_date"), errors="coerce")
-    df["availability_days_from_now"] = (df["availability_date"] - datetime.now()).dt.days
-    df["availability_days_from_now"] = df["availability_days_from_now"].fillna(999)
+    if "availability_date" in df.columns:
+        df["availability_date"] = pd.to_datetime(df["availability_date"], errors="coerce")
+        df["availability_days_from_now"] = (df["availability_date"] - datetime.now()).dt.days
+    else:
+        df["availability_days_from_now"] = None
 
     df["has_balcony"] = df.get("has_balcony", False).astype(int)
     df["is_rental"] = df.get("is_rental", True).astype(int)
@@ -128,13 +180,26 @@ def preprocess_structured_data(df: pd.DataFrame, is_rental_mode: bool = True) ->
     else:
         df = df[df["price"] > 80000]
 
-    df["log_area_sqm"] = np.log1p(df["area_sqm"])
-    df["availability_soon"] = (df["availability_days_from_now"] <= 30).astype(int)
+    # Feature engineering
+    df["log_area_sqm"] = df["area_sqm"].apply(lambda x: np.log1p(x))
+    df["availability_soon"] = df["availability_days_from_now"].apply(lambda x: int(x is not None and x <= 30))
     df["is_small"] = (df["area_sqm"] < 30).astype(int)
     df["is_large"] = (df["area_sqm"] > 80).astype(int)
+
+    # Latitude/longitude binning with robust fallback
+    if "latitude" in df.columns:
+        df["lat_bin"] = pd.cut(df["latitude"], bins=10, labels=False)
+    else:
+        df["lat_bin"] = np.nan
+    if "longitude" in df.columns:
+        df["lon_bin"] = pd.cut(df["longitude"], bins=10, labels=False)
+    else:
+        df["lon_bin"] = np.nan
+
     df["is_ground_floor"] = (df["floor"] <= 0).astype(int)
     df["is_top_floor"] = (df["floor"] > 4).astype(int)
 
+    # Add missing engineered columns from RF script
     for label in ["is_new", "has_view", "has_garden", "has_parking", "has_air_conditioning"]:
         if label in df.columns:
             df[label] = df[label].astype(int)
@@ -144,29 +209,55 @@ def preprocess_structured_data(df: pd.DataFrame, is_rental_mode: bool = True) ->
     return df
 
 
-# === TRAINING ===
-def train_model(X: pd.DataFrame, y: pd.Series) -> RandomForestRegressor:
-    categorical = [col for col in ["city", "region", "description_cluster"] if col in X.columns]
+
+# === TRAINING (from Random Forest script) ===
+def train_model(X: pd.DataFrame, y: pd.Series, save_path=None):
+    categorical_features = [col for col in ["city", "region", "description_cluster"] if col in X.columns]
     preprocessor = ColumnTransformer([
-        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical)
+        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features)
     ], remainder="passthrough")
 
     pipeline = Pipeline([
-        ("preprocess", preprocessor),
-        ("regressor", RandomForestRegressor(n_estimators=150, random_state=42))
+        ("preprocessing", preprocessor),
+        ("regressor", RandomForestRegressor(random_state=42))
     ])
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    pipeline.fit(X_train, y_train)
+    param_grid = {
+        "regressor__n_estimators": [100, 200],
+        "regressor__max_depth": [10, 20],
+        "regressor__min_samples_split": [2, 5],
+        "regressor__min_samples_leaf": [1, 2]
+    }
 
-    y_pred = pipeline.predict(X_test)
-    print("\n🎯 Evaluation Metrics:")
-    print(f"R² Score: {r2_score(y_test, y_pred):.3f}")
-    print(f"MAE: CHF {mean_absolute_error(y_test, y_pred):,.2f}")
-    return pipeline
+    scorer = make_scorer(mean_absolute_error, greater_is_better=False)
+    kf = KFold(n_splits=3, shuffle=True, random_state=42)
+
+    grid_search = GridSearchCV(
+        estimator=pipeline,
+        param_grid=param_grid,
+        scoring=scorer,
+        cv=kf,
+        verbose=1,
+        n_jobs=-1
+    )
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    grid_search.fit(X_train, y_train)
+    best_model = grid_search.best_estimator_
+
+    if save_path:
+        import joblib
+        joblib.dump(best_model, save_path)
+        print(f"📦 Tuned model saved to {save_path}")
+
+    y_pred = best_model.predict(X_test)
+    print(f"Best parameters: {grid_search.best_params_}")
+    print(f"Model evaluation:\nMAE: CHF {mean_absolute_error(y_test, y_pred):,.2f}\nR²: {r2_score(y_test, y_pred):.2f}")
+    return best_model
 
 
 # === MAIN ENTRY ===
+
 if __name__ == "__main__":
     # Download all images from Google Drive folder if not already present
     if not os.path.exists(IMAGE_FOLDER) or not os.listdir(IMAGE_FOLDER):
@@ -176,8 +267,10 @@ if __name__ == "__main__":
     df = pd.DataFrame(get_all_properties())
     df = preprocess_structured_data(df, is_rental_mode=True)
 
-    print("🧠 Generating description clusters...")
-    df["description_cluster"] = generate_description_clusters(df)
+    print("🧠 Generating description clusters using modular KMeans logic...")
+    X_text, vectorizer, terms = vectorize_descriptions(df)
+    _, description_clusters = perform_kmeans(X_text, n_clusters=N_CLUSTERS)
+    df["description_cluster"] = description_clusters
 
     print("🖼️ Loading image URLs from images table...")
     import psycopg2
@@ -191,6 +284,9 @@ if __name__ == "__main__":
     images_df = pd.read_sql("SELECT property_id, url FROM images", conn)
     conn.close()
 
+    # Validate image files
+    verify_image_files_match_database(images_df, IMAGE_FOLDER)
+    
     # Group URLs by property_id
     image_urls_map = images_df.groupby("property_id")['url'].apply(list)
     df["image_urls"] = df["id"].map(image_urls_map)
@@ -208,9 +304,6 @@ if __name__ == "__main__":
     ])
     y = full_df["price"]
 
-    print("🚀 Training model...")
-    model = train_model(X, y)
-
-    import joblib
-    joblib.dump(model, "combined_price_model.joblib")
+    print("🚀 Training model (Random Forest logic)...")
+    model = train_model(X, y, save_path="combined_price_model.joblib")
     print("✅ Model saved as combined_price_model.joblib")
