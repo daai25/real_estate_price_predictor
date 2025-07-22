@@ -24,9 +24,6 @@ format:
     css: styles.css
     toc: true
   
-  pdf:
-    documentclass: scrreprt
-    number-sections: true
 
 jupyter: python3
 
