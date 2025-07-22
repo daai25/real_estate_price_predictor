@@ -5,11 +5,13 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from deep_translator import GoogleTranslator
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
 from typing import List, Optional
+from deep_translator import GoogleTranslator
+from sentence_transformers import SentenceTransformer
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from database.select_data import get_all_properties
@@ -18,6 +20,7 @@ from database.select_data import get_all_properties
 def translate_terms(terms: List[str], source_lang: str = "auto", target_lang: str = "en") -> List[str]:
     translator = GoogleTranslator(source=source_lang, target=target_lang)
     return [translator.translate(term) for term in terms]
+
 
 class PropertyDataLoader:
     def __init__(self, df: Optional[pd.DataFrame] = None):
@@ -31,31 +34,29 @@ class PropertyDataLoader:
             self.df = pd.DataFrame(properties)
         return self.df
 
-# Load and vectorize
-df_data = PropertyDataLoader().load_data()
-vectorizer = TfidfVectorizer(max_features=1000, stop_words='english')
-X = vectorizer.fit_transform(df_data['description'])
-terms = vectorizer.get_feature_names_out()
 
-# Try multiple cluster values
+# Load data and encode semantically
+data_loader = PropertyDataLoader()
+df_data = data_loader.load_data()
+model = SentenceTransformer('all-MiniLM-L6-v2')
+X = model.encode(df_data['description'].tolist(), show_progress_bar=True)
 
-# --- Compute clustering metric (silhouette score) for each n_clusters ---
-from sklearn.metrics import silhouette_score
-
+# Evaluate clustering
 cluster_range = range(2, 30)
 silhouette_scores = []
 
 for n_clusters in cluster_range:
     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    cluster_labels = kmeans.fit_predict(X)
-    score = silhouette_score(X, cluster_labels)
+    labels = kmeans.fit_predict(X)
+    score = silhouette_score(X, labels)
     silhouette_scores.append(score)
 
-# --- Plot silhouette score for each n_clusters ---
+# Plot results
 plt.figure(figsize=(10, 6))
-plt.plot(cluster_range, silhouette_scores, marker='o')
-plt.title('Silhouette Score for KMeans Clustering')
+plt.plot(cluster_range, silhouette_scores, marker='o', linestyle='-')
+plt.title('Silhouette Score for SentenceTransformer-based Clustering')
 plt.xlabel('Number of Clusters')
 plt.ylabel('Silhouette Score')
 plt.grid(True)
+plt.tight_layout()
 plt.show()

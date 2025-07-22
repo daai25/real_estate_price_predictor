@@ -14,6 +14,15 @@ dependencies:
   - scikit-learn
   - scikit-plot
   - seaborn
+  - matplotlib
+  - plotly
+  - pillow
+  - tqdm
+  - xgboost
+  - gdown
+  - psycopg2
+  - pytorch
+  - geopy
   - pip
   - pip:
       - python-dotenv
@@ -23,3 +32,12 @@ dependencies:
       - geopy
       - selenium
       - webdriver_manager
+      - deep-translator
+      - psycopg2-binary
+      - torch==2.1.2
+      - torchvision==0.16.2
+      - transformers==4.37.2
+      - sentence-transformers==2.6.1
+      - streamlit
+      - numpy==1.26.4
+
