@@ -1,7 +1,7 @@
 
 ---
 title: "Modelling Report"
-author: "Your Name"
+author: "Real Estate Price Predictor Team"
 format: html
 ---
 
@@ -86,9 +86,9 @@ graph TD
 - R²: 0.62  
 
 Plots:  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_actual_vs_predicted.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_feature_importances.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_residuals_distribution.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_residuals_distribution.png)  
 
 ---
 
@@ -98,9 +98,9 @@ Plots:
 - R²: 0.83  
 
 Plots:  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_actual_vs_predicted.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_feature_importances.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_residuals_distribution.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_residuals_distribution.png)  
 
 ---
 
@@ -110,9 +110,9 @@ Plots:
 - R²: **0.98**  
 
 Plots:  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_actual_vs_predicted.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_feature_importances.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_residuals_distribution.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_residuals_distribution.png)  
 
 ---
 
@@ -124,9 +124,9 @@ Plots:
 - R²: 0.58  
 
 Plots:  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/purchase_actual_vs_predicted.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/purchase_feature_importances.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_residuals_distribution.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/purchase_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/purchase_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_residuals_distribution.png)  
 
 ---
 
@@ -136,9 +136,9 @@ Plots:
 - R²: 0.84  
 
 Plots:  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_actual_vs_predicted.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_feature_importances.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_residuals_distribution.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_residuals_distribution.png)  
 
 ---
 
@@ -148,52 +148,92 @@ Plots:
 - R²: **0.97**  
 
 Plots:  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_actual_vs_predicted.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_feature_importances.png)  
-- ![](https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_residuals_distribution.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_residuals_distribution.png)  
+
+# Advanced Modelling & Feature Engineering
+
+## Semantic Text Clustering
+
+To enhance the predictive power of property descriptions, we introduced **semantic clustering** using the `SentenceTransformer` model `all-MiniLM-L6-v2`.
+
+```{mermaid}
+graph TD
+    A[Load Descriptions] --> B[SentenceTransformer Embedding]
+    B --> C[Run KMeans Clustering]
+    C --> D[Evaluate with Silhouette Score]
+    D --> E[Select Optimal Cluster Number]
+```
+
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/clustering/silhouette_analysis.png)
+
+## Cluster Top Terms
+
+Clusters were labeled using top TF-IDF terms per cluster, translated for stakeholder readability.
+
+Example:
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/clustering/top_terms_cluster_0.png)
+
+## Image Features
+
+Images were embedded using **ResNet50**, reduced using **PCA (100 components)**, and merged by ID into the model.
+
+```{mermaid}
+graph TD
+    A[Download Images] --> B[ResNet50 Feature Extraction]
+    B --> C[PCA Reduction]
+    C --> D[Join with Main DataFrame]
+```
+
+## Feature Engineering Summary
+
+| Feature Source    | Example Features                        |
+|-------------------|-----------------------------------------|
+| Structured        | area, log_area_sqm, is_top_floor        |
+| Semantic Clusters | description_cluster                     |
+| Image PCA         | img_pca_0 ... img_pca_99                |
+| Geo Binning       | lat_bin, lon_bin                        |
+| Augmented         | rare class noise injection              |
 
 # Model Interpretation
 
-The Random Forest model allows for interpretability via:
-- Feature importance scores
-- Residual distribution analysis
+Random Forests provide interpretable insights via:
+- Feature importances
+- Residual analysis
 
-Most influential features:
-- **Rental**: Living area, location cluster, number of rooms  
-- **Purchase**: Living area, ZIP code cluster, property type indicators  
+Top Drivers:
+- **Rental**: area, location cluster, room count  
+- **Purchase**: area, ZIP cluster, property type indicators  
 
 # Achievements & Limitations
 
 ## Were the Objectives Achieved?
 
-Yes. The Random Forest model for both rental and purchase predictions demonstrated sufficient accuracy and interpretability to support project goals.
+Yes. The enhanced Random Forest models surpassed baselines and proved suitable for deployment.
 
 ## Key Findings
 
-- Nonlinear models (RandomForest, XGBoost) outperformed Linear Regression significantly  
-- Feature importance revealed consistent key drivers of price  
-- Residuals showed low heteroscedasticity for Random Forest
+- Tree-based models outperformed linear models significantly  
+- Combined features led to robust predictions  
+- Clustering added interpretability and segmentation
 
 ## Limitations
 
-- Rental prices can be influenced by unseen factors (e.g. current market dynamics)
-- Geographic clustering could be refined using more granular or external datasets
-- Deployment requires data cleaning consistency
+- Market dynamics not included in data  
+- Clustering depends on text quality  
+- Image availability varies across properties
 
 # Conclusions and Next Steps
 
-## Summary of Findings
+## Summary
 
-- **Random Forest** was the most robust model across both pricing targets
-- The pipeline is reproducible, well-documented, and interpretable
-- Feature importance analysis enables explainability for stakeholders
+- Best performance achieved with Random Forests using enriched feature sets  
+- Pipeline supports automated, reproducible model training  
+- Stakeholder interpretability was prioritized
 
 ## Future Work
 
-- Incorporate additional location metadata (e.g. crime rate, proximity to transport)
-- Explore ensemble models or deep learning for fine-tuning
-- Prepare deployment-ready API with versioned model artifacts
-
-## Deployment
-
-We propose deploying the selected Random Forest models via a RESTful API, integrated with the frontend UI. Future iterations should include continuous retraining and monitoring mechanisms.
+- Use external data (transport, demographics)  
+- Explore deep learning and model ensembles  
+- Deploy via REST API and monitor performance
