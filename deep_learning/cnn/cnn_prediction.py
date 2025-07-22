@@ -9,14 +9,38 @@ from PIL import Image
 import torch
 from torchvision import models, transforms
 
+
 # Import preprocessing functions from training script
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from cnn_training import preprocess_structured_data, load_feature_extractor
 
 # === Configuration ===
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(SCRIPT_DIR, "combined_price_model.joblib")
+MODEL_PATHS = {
+    "rental": os.path.join(SCRIPT_DIR, "combined_price_model_rental.joblib"),
+    "purchase": os.path.join(SCRIPT_DIR, "combined_price_model_purchase.joblib")
+}
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+def choose_mode():
+    print("Select prediction mode:")
+    print("1. Rental")
+    print("2. Purchase")
+    while True:
+        mode_input = input("Enter 1 for Rental or 2 for Purchase: ").strip()
+        if mode_input == "1":
+            return "rental"
+        elif mode_input == "2":
+            return "purchase"
+        else:
+            print("Invalid input. Please enter 1 or 2.")
+
+def load_model(mode):
+    model_path = MODEL_PATHS[mode]
+    if not os.path.exists(model_path):
+        print(f"❌ Model not found at {model_path}")
+        sys.exit(1)
+    return joblib.load(model_path)
 
 # === Image transform ===
 image_transform = transforms.Compose([
@@ -27,11 +51,6 @@ image_transform = transforms.Compose([
 ])
 
 # === Functions ===
-def load_model():
-    if not os.path.exists(MODEL_PATH):
-        print(f"❌ Model not found at {MODEL_PATH}")
-        sys.exit(1)
-    return joblib.load(MODEL_PATH)
 
 def geocode_address(address):
     try:
@@ -103,7 +122,11 @@ def attach_image_features(df: pd.DataFrame, image_path: str):
 
 # === Main ===
 def main():
+
+    mode = choose_mode()
+    is_rental = (mode == "rental")
     df = get_user_input()
+    df["is_rental"] = int(is_rental)
 
     # Optional image
     image_path = input("📷 Path to image file (.jpg, optional): ").strip()
@@ -111,11 +134,9 @@ def main():
 
     # Preprocess structured features (skip filtering by 'price' for prediction input)
     if 'price' in df.columns:
-        df = preprocess_structured_data(df, is_rental_mode=True)
+        df = preprocess_structured_data(df, is_rental_mode=is_rental)
     else:
-        # Use a copy of preprocess_structured_data logic, but skip filtering by 'price'
-        # This assumes preprocess_structured_data only filters by 'price' and does not require it for other steps
-        df = preprocess_structured_data(df.copy(), is_rental_mode=True)
+        df = preprocess_structured_data(df.copy(), is_rental_mode=is_rental)
 
     # Attach image features if available
     if use_image:
@@ -131,7 +152,7 @@ def main():
             df.drop(columns=[col], inplace=True)
 
     # Load model and predict
-    model = load_model()
+    model = load_model(mode)
     print("🔮 Predicting price...")
     prediction = model.predict(df)[0]
     print(f"💰 Predicted price: CHF {prediction:,.2f}")
