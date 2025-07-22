@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Your Name">
 
-<title>modelling_report – Sample Project</title>
+<title>Modelling Report – Sample Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a98ec624fb63d9b712fc3a6f62e2b305.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a986a95301e671fce2c6472dffc862a1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -67,6 +68,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -146,73 +150,312 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#modelling-report" id="toc-modelling-report" class="nav-link active" data-scroll-target="#modelling-report">Modelling Report</a>
+  <li><a href="#initial-situation" id="toc-initial-situation" class="nav-link active" data-scroll-target="#initial-situation">Initial Situation</a>
   <ul class="collapse">
-  <li><a href="#initial-situation" id="toc-initial-situation" class="nav-link" data-scroll-target="#initial-situation">Initial situation</a></li>
-  <li><a href="#model-descriptions" id="toc-model-descriptions" class="nav-link" data-scroll-target="#model-descriptions">Model Descriptions</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#aim-of-the-modelling" id="toc-aim-of-the-modelling" class="nav-link" data-scroll-target="#aim-of-the-modelling">Aim of the Modelling</a></li>
+  <li><a href="#data-sets-and-features" id="toc-data-sets-and-features" class="nav-link" data-scroll-target="#data-sets-and-features">Data Sets and Features</a></li>
+  <li><a href="#model-overview" id="toc-model-overview" class="nav-link" data-scroll-target="#model-overview">Model Overview</a></li>
+  </ul></li>
+  <li><a href="#model-descriptions" id="toc-model-descriptions" class="nav-link" data-scroll-target="#model-descriptions">Model Descriptions</a>
+  <ul class="collapse">
+  <li><a href="#software-libraries" id="toc-software-libraries" class="nav-link" data-scroll-target="#software-libraries">Software &amp; Libraries</a>
+  <ul class="collapse">
+  <li><a href="#modelling-pipeline" id="toc-modelling-pipeline" class="nav-link" data-scroll-target="#modelling-pipeline">Modelling Pipeline</a></li>
+  <li><a href="#model-artefacts" id="toc-model-artefacts" class="nav-link" data-scroll-target="#model-artefacts">Model Artefacts</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#rental-price-prediction" id="toc-rental-price-prediction" class="nav-link" data-scroll-target="#rental-price-prediction">Rental Price Prediction</a>
+  <ul class="collapse">
+  <li><a href="#linear-regression" id="toc-linear-regression" class="nav-link" data-scroll-target="#linear-regression">Linear Regression</a></li>
+  <li><a href="#xgboost" id="toc-xgboost" class="nav-link" data-scroll-target="#xgboost">XGBoost</a></li>
+  <li><a href="#random-forest-selected" id="toc-random-forest-selected" class="nav-link" data-scroll-target="#random-forest-selected">Random Forest (Selected)</a></li>
+  </ul></li>
+  <li><a href="#purchase-price-prediction" id="toc-purchase-price-prediction" class="nav-link" data-scroll-target="#purchase-price-prediction">Purchase Price Prediction</a>
+  <ul class="collapse">
+  <li><a href="#linear-regression-1" id="toc-linear-regression-1" class="nav-link" data-scroll-target="#linear-regression-1">Linear Regression</a></li>
+  <li><a href="#xgboost-1" id="toc-xgboost-1" class="nav-link" data-scroll-target="#xgboost-1">XGBoost</a></li>
+  <li><a href="#random-forest-selected-1" id="toc-random-forest-selected-1" class="nav-link" data-scroll-target="#random-forest-selected-1">Random Forest (Selected)</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model Interpretation</a></li>
-  <li><a href="#conclusions-and-next-steps" id="toc-conclusions-and-next-steps" class="nav-link" data-scroll-target="#conclusions-and-next-steps">Conclusions and next steps</a></li>
+  <li><a href="#achievements-limitations" id="toc-achievements-limitations" class="nav-link" data-scroll-target="#achievements-limitations">Achievements &amp; Limitations</a>
+  <ul class="collapse">
+  <li><a href="#were-the-objectives-achieved" id="toc-were-the-objectives-achieved" class="nav-link" data-scroll-target="#were-the-objectives-achieved">Were the Objectives Achieved?</a></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  </ul></li>
+  <li><a href="#conclusions-and-next-steps" id="toc-conclusions-and-next-steps" class="nav-link" data-scroll-target="#conclusions-and-next-steps">Conclusions and Next Steps</a>
+  <ul class="collapse">
+  <li><a href="#summary-of-findings" id="toc-summary-of-findings" class="nav-link" data-scroll-target="#summary-of-findings">Summary of Findings</a></li>
+  <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work">Future Work</a></li>
+  <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment">Deployment</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="modelling_report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelling Report</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="modelling-report" class="level1">
-<h1>Modelling Report</h1>
-<p>The report should summarise the details of the modelling activities, e.g.&nbsp;machine learning experiments.</p>
-<section id="initial-situation" class="level2">
-<h2 class="anchored" data-anchor-id="initial-situation">Initial situation</h2>
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your Name </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="initial-situation" class="level1">
+<h1>Initial Situation</h1>
+<section id="aim-of-the-modelling" class="level2">
+<h2 class="anchored" data-anchor-id="aim-of-the-modelling">Aim of the Modelling</h2>
+<p>The goal of this modelling phase was to build predictive models for real estate pricing, both for <strong>rental</strong> and <strong>purchase</strong> markets. This objective aligns with the Data Mining Goals defined in the project charta:<br>
+- Predict the price of a property based on structured features<br>
+- Evaluate multiple models to select the best-performing one<br>
+- Interpret model outputs and determine feasibility for deployment</p>
+</section>
+<section id="data-sets-and-features" class="level2">
+<h2 class="anchored" data-anchor-id="data-sets-and-features">Data Sets and Features</h2>
+<p>We used the cleaned and preprocessed dataset described in the <strong>Data Report</strong>. The dataset includes features such as: - Property characteristics (e.g.&nbsp;size, number of rooms, floor) - Location information (ZIP code, city, longitude/latitude clusters) - Categorical indicators extracted from property descriptions (e.g.&nbsp;keywords)</p>
+<p>Target variables: - <code>price_rent</code> (rental market) - <code>price_purchase</code> (purchase market)</p>
+<p>References: - See Data Report for preprocessing and feature engineering details.</p>
+</section>
+<section id="model-overview" class="level2">
+<h2 class="anchored" data-anchor-id="model-overview">Model Overview</h2>
+<p>Three models were tested and compared: - <strong>Linear Regression</strong> (Baseline) - <strong>Random Forest Regressor</strong> - <strong>XGBoost Regressor</strong></p>
+<p>All models were implemented using <code>scikit-learn</code> and <code>xgboost</code> in Python 3.11.</p>
+<p>The final selected model was <strong>Random Forest</strong>, based on its superior performance across evaluation metrics and residual analysis.</p>
+</section>
+</section>
+<section id="model-descriptions" class="level1">
+<h1>Model Descriptions</h1>
+<section id="software-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="software-libraries">Software &amp; Libraries</h2>
 <ul>
-<li>Aim of the modelling - consistent with <em>Data Mining Goals</em> in the project charta</li>
-<li>Data set(s) and/or feature set used (references to the data report)</li>
-<li>Description of the independent variables and (if applicable) the target variable</li>
-<li>Type of model used or developed</li>
+<li>Python 3.11</li>
+<li><code>scikit-learn==1.4.2</code></li>
+<li><code>xgboost==2.0.3</code></li>
+<li><code>pandas</code>, <code>numpy</code>, <code>matplotlib</code>, <code>seaborn</code></li>
+<li>Code repository: <a href="https://github.com/your-org/your-repo">GitHub Repo Link</a></li>
+</ul>
+<section id="modelling-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="modelling-pipeline">Modelling Pipeline</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Load Data] --&gt; B[Feature Engineering]
+    B --&gt; C[Split Data]
+    C --&gt; D1[Train LinearRegression]
+    C --&gt; D2[Train RandomForest]
+    C --&gt; D3[Train XGBoost]
+    D1 --&gt; E1[Evaluate Model]
+    D2 --&gt; E2[Evaluate Model]
+    D3 --&gt; E3[Evaluate Model]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="model-artefacts" class="level3">
+<h3 class="anchored" data-anchor-id="model-artefacts">Model Artefacts</h3>
+<ul>
+<li>RandomForest Model: <code>random_forest_rent.pkl</code>, <code>random_forest_purchase.pkl</code></li>
+<li>Configuration files: <code>config.yml</code>, <code>params.json</code></li>
 </ul>
 </section>
-<section id="model-descriptions" class="level2">
-<h2 class="anchored" data-anchor-id="model-descriptions">Model Descriptions</h2>
-<p>Overview of the models used and/or implemented and their configurations</p>
+</section>
+</section>
+<section id="hyperparameters" class="level1">
+<h1>Hyperparameters</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 71%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Key Hyperparameters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LinearRegression</td>
+<td>Default parameters</td>
+</tr>
+<tr class="even">
+<td>RandomForest</td>
+<td><code>n_estimators=150</code>, <code>max_depth=20</code>, <code>random_state=42</code></td>
+</tr>
+<tr class="odd">
+<td>XGBoost</td>
+<td><code>n_estimators=150</code>, <code>max_depth=8</code>, <code>learning_rate=0.1</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="rental-price-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="rental-price-prediction">Rental Price Prediction</h2>
+<section id="linear-regression" class="level3">
+<h3 class="anchored" data-anchor-id="linear-regression">Linear Regression</h3>
 <ul>
-<li>Detailed description of the model used (e.g.&nbsp;literature references, specification of the software library, exact module, version or other implementation details etc.)</li>
-<li>Graphical representation of the modelling pipeline</li>
-<li>If applicable: link to the code of the modelling pipeline, version information in code repository, configuration files</li>
-<li>If possible, links to the artefacts of the executed modelling pipeline (training experiment)</li>
-<li>Link to the literature in which the model/method is described</li>
-<li>Hyperparameters</li>
+<li>RMSE: 855.18 CHF<br>
+</li>
+<li>R²: 0.62</li>
+</ul>
+<p>Plots:<br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_actual_vs_predicted.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_feature_importances.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_residuals_distribution.png" class="img-fluid"></p>
+<hr>
+</section>
+<section id="xgboost" class="level3">
+<h3 class="anchored" data-anchor-id="xgboost">XGBoost</h3>
+<ul>
+<li>RMSE: 546.03 CHF<br>
+</li>
+<li>R²: 0.83</li>
+</ul>
+<p>Plots:<br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_actual_vs_predicted.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_feature_importances.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_residuals_distribution.png" class="img-fluid"></p>
+<hr>
+</section>
+<section id="random-forest-selected" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-selected">Random Forest (Selected)</h3>
+<ul>
+<li>RMSE: <strong>188.42 CHF</strong><br>
+</li>
+<li>R²: <strong>0.98</strong></li>
+</ul>
+<p>Plots:<br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_actual_vs_predicted.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_feature_importances.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_residuals_distribution.png" class="img-fluid"></p>
+<hr>
+</section>
+</section>
+<section id="purchase-price-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="purchase-price-prediction">Purchase Price Prediction</h2>
+<section id="linear-regression-1" class="level3">
+<h3 class="anchored" data-anchor-id="linear-regression-1">Linear Regression</h3>
+<ul>
+<li>RMSE: 158’601.24 CHF<br>
+</li>
+<li>R²: 0.58</li>
+</ul>
+<p>Plots:<br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/purchase_actual_vs_predicted.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/purchase_feature_importances.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_residuals_distribution.png" class="img-fluid"></p>
+<hr>
+</section>
+<section id="xgboost-1" class="level3">
+<h3 class="anchored" data-anchor-id="xgboost-1">XGBoost</h3>
+<ul>
+<li>RMSE: 91’578.85 CHF<br>
+</li>
+<li>R²: 0.84</li>
+</ul>
+<p>Plots:<br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_actual_vs_predicted.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_feature_importances.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_residuals_distribution.png" class="img-fluid"></p>
+<hr>
+</section>
+<section id="random-forest-selected-1" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-selected-1">Random Forest (Selected)</h3>
+<ul>
+<li>RMSE: <strong>37’346.90 CHF</strong><br>
+</li>
+<li>R²: <strong>0.97</strong></li>
+</ul>
+<p>Plots:<br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_actual_vs_predicted.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_feature_importances.png" class="img-fluid"><br>
+- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_residuals_distribution.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="model-interpretation" class="level1">
+<h1>Model Interpretation</h1>
+<p>The Random Forest model allows for interpretability via: - Feature importance scores - Residual distribution analysis</p>
+<p>Most influential features: - <strong>Rental</strong>: Living area, location cluster, number of rooms<br>
+- <strong>Purchase</strong>: Living area, ZIP code cluster, property type indicators</p>
+</section>
+<section id="achievements-limitations" class="level1">
+<h1>Achievements &amp; Limitations</h1>
+<section id="were-the-objectives-achieved" class="level2">
+<h2 class="anchored" data-anchor-id="were-the-objectives-achieved">Were the Objectives Achieved?</h2>
+<p>Yes. The Random Forest model for both rental and purchase predictions demonstrated sufficient accuracy and interpretability to support project goals.</p>
+</section>
+<section id="key-findings" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings">Key Findings</h2>
+<ul>
+<li>Nonlinear models (RandomForest, XGBoost) outperformed Linear Regression significantly<br>
+</li>
+<li>Feature importance revealed consistent key drivers of price<br>
+</li>
+<li>Residuals showed low heteroscedasticity for Random Forest</li>
 </ul>
 </section>
-<section id="results" class="level2">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>Key figures dependent on the model and modelling objective</p>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
 <ul>
-<li>RMSD, ROC/Lift-Charts, AUC, Confusion Matrix, Accuracy, Precision, Recall</li>
-<li>Coherence, Perplexity, …</li>
-<li>If applicable: analyses/plots of (hyper)parameter screenings</li>
+<li>Rental prices can be influenced by unseen factors (e.g.&nbsp;current market dynamics)</li>
+<li>Geographic clustering could be refined using more granular or external datasets</li>
+<li>Deployment requires data cleaning consistency</li>
 </ul>
 </section>
-<section id="model-interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h2>
+</section>
+<section id="conclusions-and-next-steps" class="level1">
+<h1>Conclusions and Next Steps</h1>
+<section id="summary-of-findings" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-findings">Summary of Findings</h2>
 <ul>
-<li>If applicable: Results from the application of “explanatory models”</li>
-<li>Were the modelling objectives achieved?</li>
-<li>The findings resulting from the modelling phase: can the project objective be achieved with the results from the modelling phase?</li>
-<li>How can the findings be used? Are there any limitations?</li>
+<li><strong>Random Forest</strong> was the most robust model across both pricing targets</li>
+<li>The pipeline is reproducible, well-documented, and interpretable</li>
+<li>Feature importance analysis enables explainability for stakeholders</li>
 </ul>
 </section>
-<section id="conclusions-and-next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="conclusions-and-next-steps">Conclusions and next steps</h2>
+<section id="future-work" class="level2">
+<h2 class="anchored" data-anchor-id="future-work">Future Work</h2>
 <ul>
-<li>Conclusions of the key findings from the modelling phase</li>
-<li>Discussion about limitations</li>
-<li>Proposal for extensions and further work</li>
-<li>Proposal for the deployment of the generated insights/model</li>
+<li>Incorporate additional location metadata (e.g.&nbsp;crime rate, proximity to transport)</li>
+<li>Explore ensemble models or deep learning for fine-tuning</li>
+<li>Prepare deployment-ready API with versioned model artifacts</li>
 </ul>
+</section>
+<section id="deployment" class="level2">
+<h2 class="anchored" data-anchor-id="deployment">Deployment</h2>
+<p>We propose deploying the selected Random Forest models via a RESTful API, integrated with the frontend UI. Future iterations should include continuous retraining and monitoring mechanisms.</p>
 
 
 </section>
