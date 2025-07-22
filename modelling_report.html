@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Your Name">
+<meta name="author" content="Real Estate Price Predictor Team">
 
 <title>Modelling Report – Sample Project</title>
 <style>
@@ -180,6 +180,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#random-forest-selected-1" id="toc-random-forest-selected-1" class="nav-link" data-scroll-target="#random-forest-selected-1">Random Forest (Selected)</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#advanced-modelling-feature-engineering" id="toc-advanced-modelling-feature-engineering" class="nav-link" data-scroll-target="#advanced-modelling-feature-engineering">Advanced Modelling &amp; Feature Engineering</a>
+  <ul class="collapse">
+  <li><a href="#semantic-text-clustering" id="toc-semantic-text-clustering" class="nav-link" data-scroll-target="#semantic-text-clustering">Semantic Text Clustering</a></li>
+  <li><a href="#cluster-top-terms" id="toc-cluster-top-terms" class="nav-link" data-scroll-target="#cluster-top-terms">Cluster Top Terms</a></li>
+  <li><a href="#image-features" id="toc-image-features" class="nav-link" data-scroll-target="#image-features">Image Features</a></li>
+  <li><a href="#feature-engineering-summary" id="toc-feature-engineering-summary" class="nav-link" data-scroll-target="#feature-engineering-summary">Feature Engineering Summary</a></li>
+  </ul></li>
   <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model Interpretation</a></li>
   <li><a href="#achievements-limitations" id="toc-achievements-limitations" class="nav-link" data-scroll-target="#achievements-limitations">Achievements &amp; Limitations</a>
   <ul class="collapse">
@@ -189,9 +196,8 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#conclusions-and-next-steps" id="toc-conclusions-and-next-steps" class="nav-link" data-scroll-target="#conclusions-and-next-steps">Conclusions and Next Steps</a>
   <ul class="collapse">
-  <li><a href="#summary-of-findings" id="toc-summary-of-findings" class="nav-link" data-scroll-target="#summary-of-findings">Summary of Findings</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work">Future Work</a></li>
-  <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment">Deployment</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -211,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Your Name </p>
+             <p>Real Estate Price Predictor Team </p>
           </div>
   </div>
     
@@ -330,9 +336,9 @@ ul.task-list li input[type="checkbox"] {
 <li>R²: 0.62</li>
 </ul>
 <p>Plots:<br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_actual_vs_predicted.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_feature_importances.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_residuals_distribution.png" class="img-fluid"></p>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_actual_vs_predicted.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_feature_importances.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_residuals_distribution.png" class="img-fluid"></p>
 <hr>
 </section>
 <section id="xgboost" class="level3">
@@ -343,9 +349,9 @@ ul.task-list li input[type="checkbox"] {
 <li>R²: 0.83</li>
 </ul>
 <p>Plots:<br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_actual_vs_predicted.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_feature_importances.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/rental_residuals_distribution.png" class="img-fluid"></p>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_actual_vs_predicted.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_feature_importances.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_residuals_distribution.png" class="img-fluid"></p>
 <hr>
 </section>
 <section id="random-forest-selected" class="level3">
@@ -356,9 +362,9 @@ ul.task-list li input[type="checkbox"] {
 <li>R²: <strong>0.98</strong></li>
 </ul>
 <p>Plots:<br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_actual_vs_predicted.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_feature_importances.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/rental_residuals_distribution.png" class="img-fluid"></p>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_actual_vs_predicted.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_feature_importances.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_residuals_distribution.png" class="img-fluid"></p>
 <hr>
 </section>
 </section>
@@ -372,9 +378,9 @@ ul.task-list li input[type="checkbox"] {
 <li>R²: 0.58</li>
 </ul>
 <p>Plots:<br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/purchase_actual_vs_predicted.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/purchase_feature_importances.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/linear_regression/rental_residuals_distribution.png" class="img-fluid"></p>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/purchase_actual_vs_predicted.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/purchase_feature_importances.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_residuals_distribution.png" class="img-fluid"></p>
 <hr>
 </section>
 <section id="xgboost-1" class="level3">
@@ -385,9 +391,9 @@ ul.task-list li input[type="checkbox"] {
 <li>R²: 0.84</li>
 </ul>
 <p>Plots:<br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_actual_vs_predicted.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_feature_importances.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/xgboost/purchase_residuals_distribution.png" class="img-fluid"></p>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_actual_vs_predicted.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_feature_importances.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_residuals_distribution.png" class="img-fluid"></p>
 <hr>
 </section>
 <section id="random-forest-selected-1" class="level3">
@@ -398,64 +404,147 @@ ul.task-list li input[type="checkbox"] {
 <li>R²: <strong>0.97</strong></li>
 </ul>
 <p>Plots:<br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_actual_vs_predicted.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_feature_importances.png" class="img-fluid"><br>
-- <img src="https://github.com/daai25/real_estate_price_predictor/blob/main/evaluation/random_forest/purchase_residuals_distribution.png" class="img-fluid"></p>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_actual_vs_predicted.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_feature_importances.png" class="img-fluid"><br>
+<img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_residuals_distribution.png" class="img-fluid"></p>
 </section>
+</section>
+</section>
+<section id="advanced-modelling-feature-engineering" class="level1">
+<h1>Advanced Modelling &amp; Feature Engineering</h1>
+<section id="semantic-text-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="semantic-text-clustering">Semantic Text Clustering</h2>
+<p>To enhance the predictive power of property descriptions, we introduced <strong>semantic clustering</strong> using the <code>SentenceTransformer</code> model <code>all-MiniLM-L6-v2</code>.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Load Descriptions] --&gt; B[SentenceTransformer Embedding]
+    B --&gt; C[Run KMeans Clustering]
+    C --&gt; D[Evaluate with Silhouette Score]
+    D --&gt; E[Select Optimal Cluster Number]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/clustering/silhouette_analysis.png" class="img-fluid"></p>
+</section>
+<section id="cluster-top-terms" class="level2">
+<h2 class="anchored" data-anchor-id="cluster-top-terms">Cluster Top Terms</h2>
+<p>Clusters were labeled using top TF-IDF terms per cluster, translated for stakeholder readability.</p>
+<p>Example: <img src="https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/clustering/top_terms_cluster_0.png" class="img-fluid"></p>
+</section>
+<section id="image-features" class="level2">
+<h2 class="anchored" data-anchor-id="image-features">Image Features</h2>
+<p>Images were embedded using <strong>ResNet50</strong>, reduced using <strong>PCA (100 components)</strong>, and merged by ID into the model.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Download Images] --&gt; B[ResNet50 Feature Extraction]
+    B --&gt; C[PCA Reduction]
+    C --&gt; D[Join with Main DataFrame]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="feature-engineering-summary" class="level2">
+<h2 class="anchored" data-anchor-id="feature-engineering-summary">Feature Engineering Summary</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature Source</th>
+<th>Example Features</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Structured</td>
+<td>area, log_area_sqm, is_top_floor</td>
+</tr>
+<tr class="even">
+<td>Semantic Clusters</td>
+<td>description_cluster</td>
+</tr>
+<tr class="odd">
+<td>Image PCA</td>
+<td>img_pca_0 … img_pca_99</td>
+</tr>
+<tr class="even">
+<td>Geo Binning</td>
+<td>lat_bin, lon_bin</td>
+</tr>
+<tr class="odd">
+<td>Augmented</td>
+<td>rare class noise injection</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="model-interpretation" class="level1">
 <h1>Model Interpretation</h1>
-<p>The Random Forest model allows for interpretability via: - Feature importance scores - Residual distribution analysis</p>
-<p>Most influential features: - <strong>Rental</strong>: Living area, location cluster, number of rooms<br>
-- <strong>Purchase</strong>: Living area, ZIP code cluster, property type indicators</p>
+<p>Random Forests provide interpretable insights via: - Feature importances - Residual analysis</p>
+<p>Top Drivers: - <strong>Rental</strong>: area, location cluster, room count<br>
+- <strong>Purchase</strong>: area, ZIP cluster, property type indicators</p>
 </section>
 <section id="achievements-limitations" class="level1">
 <h1>Achievements &amp; Limitations</h1>
 <section id="were-the-objectives-achieved" class="level2">
 <h2 class="anchored" data-anchor-id="were-the-objectives-achieved">Were the Objectives Achieved?</h2>
-<p>Yes. The Random Forest model for both rental and purchase predictions demonstrated sufficient accuracy and interpretability to support project goals.</p>
+<p>Yes. The enhanced Random Forest models surpassed baselines and proved suitable for deployment.</p>
 </section>
 <section id="key-findings" class="level2">
 <h2 class="anchored" data-anchor-id="key-findings">Key Findings</h2>
 <ul>
-<li>Nonlinear models (RandomForest, XGBoost) outperformed Linear Regression significantly<br>
+<li>Tree-based models outperformed linear models significantly<br>
 </li>
-<li>Feature importance revealed consistent key drivers of price<br>
+<li>Combined features led to robust predictions<br>
 </li>
-<li>Residuals showed low heteroscedasticity for Random Forest</li>
+<li>Clustering added interpretability and segmentation</li>
 </ul>
 </section>
 <section id="limitations" class="level2">
 <h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
 <ul>
-<li>Rental prices can be influenced by unseen factors (e.g.&nbsp;current market dynamics)</li>
-<li>Geographic clustering could be refined using more granular or external datasets</li>
-<li>Deployment requires data cleaning consistency</li>
+<li>Market dynamics not included in data<br>
+</li>
+<li>Clustering depends on text quality<br>
+</li>
+<li>Image availability varies across properties</li>
 </ul>
 </section>
 </section>
 <section id="conclusions-and-next-steps" class="level1">
 <h1>Conclusions and Next Steps</h1>
-<section id="summary-of-findings" class="level2">
-<h2 class="anchored" data-anchor-id="summary-of-findings">Summary of Findings</h2>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
-<li><strong>Random Forest</strong> was the most robust model across both pricing targets</li>
-<li>The pipeline is reproducible, well-documented, and interpretable</li>
-<li>Feature importance analysis enables explainability for stakeholders</li>
+<li>Best performance achieved with Random Forests using enriched feature sets<br>
+</li>
+<li>Pipeline supports automated, reproducible model training<br>
+</li>
+<li>Stakeholder interpretability was prioritized</li>
 </ul>
 </section>
 <section id="future-work" class="level2">
 <h2 class="anchored" data-anchor-id="future-work">Future Work</h2>
 <ul>
-<li>Incorporate additional location metadata (e.g.&nbsp;crime rate, proximity to transport)</li>
-<li>Explore ensemble models or deep learning for fine-tuning</li>
-<li>Prepare deployment-ready API with versioned model artifacts</li>
+<li>Use external data (transport, demographics)<br>
+</li>
+<li>Explore deep learning and model ensembles<br>
+</li>
+<li>Deploy via REST API and monitor performance</li>
 </ul>
-</section>
-<section id="deployment" class="level2">
-<h2 class="anchored" data-anchor-id="deployment">Deployment</h2>
-<p>We propose deploying the selected Random Forest models via a RESTful API, integrated with the frontend UI. Future iterations should include continuous retraining and monitoring mechanisms.</p>
 
 
 </section>

@@ -285,7 +285,7 @@
     "href": "modelling_report.html#rental-price-prediction",
     "title": "Modelling Report",
     "section": "Rental Price Prediction",
-    "text": "Rental Price Prediction\n\nLinear Regression\n\nRMSE: 855.18 CHF\n\nR²: 0.62\n\nPlots:\n- \n- \n- \n\n\n\nXGBoost\n\nRMSE: 546.03 CHF\n\nR²: 0.83\n\nPlots:\n- \n- \n- \n\n\n\nRandom Forest (Selected)\n\nRMSE: 188.42 CHF\n\nR²: 0.98\n\nPlots:\n- \n- \n-",
+    "text": "Rental Price Prediction\n\nLinear Regression\n\nRMSE: 855.18 CHF\n\nR²: 0.62\n\nPlots:\n\n\n\n\n\n\nXGBoost\n\nRMSE: 546.03 CHF\n\nR²: 0.83\n\nPlots:\n\n\n\n\n\n\nRandom Forest (Selected)\n\nRMSE: 188.42 CHF\n\nR²: 0.98\n\nPlots:",
     "crumbs": [
       "Modelling Report"
     ]
@@ -295,7 +295,47 @@
     "href": "modelling_report.html#purchase-price-prediction",
     "title": "Modelling Report",
     "section": "Purchase Price Prediction",
-    "text": "Purchase Price Prediction\n\nLinear Regression\n\nRMSE: 158’601.24 CHF\n\nR²: 0.58\n\nPlots:\n- \n- \n- \n\n\n\nXGBoost\n\nRMSE: 91’578.85 CHF\n\nR²: 0.84\n\nPlots:\n- \n- \n- \n\n\n\nRandom Forest (Selected)\n\nRMSE: 37’346.90 CHF\n\nR²: 0.97\n\nPlots:\n- \n- \n-",
+    "text": "Purchase Price Prediction\n\nLinear Regression\n\nRMSE: 158’601.24 CHF\n\nR²: 0.58\n\nPlots:\n\n\n\n\n\n\nXGBoost\n\nRMSE: 91’578.85 CHF\n\nR²: 0.84\n\nPlots:\n\n\n\n\n\n\nRandom Forest (Selected)\n\nRMSE: 37’346.90 CHF\n\nR²: 0.97\n\nPlots:",
+    "crumbs": [
+      "Modelling Report"
+    ]
+  },
+  {
+    "objectID": "modelling_report.html#semantic-text-clustering",
+    "href": "modelling_report.html#semantic-text-clustering",
+    "title": "Modelling Report",
+    "section": "Semantic Text Clustering",
+    "text": "Semantic Text Clustering\nTo enhance the predictive power of property descriptions, we introduced semantic clustering using the SentenceTransformer model all-MiniLM-L6-v2.\n\n\n\n\n\ngraph TD\n    A[Load Descriptions] --&gt; B[SentenceTransformer Embedding]\n    B --&gt; C[Run KMeans Clustering]\n    C --&gt; D[Evaluate with Silhouette Score]\n    D --&gt; E[Select Optimal Cluster Number]",
+    "crumbs": [
+      "Modelling Report"
+    ]
+  },
+  {
+    "objectID": "modelling_report.html#cluster-top-terms",
+    "href": "modelling_report.html#cluster-top-terms",
+    "title": "Modelling Report",
+    "section": "Cluster Top Terms",
+    "text": "Cluster Top Terms\nClusters were labeled using top TF-IDF terms per cluster, translated for stakeholder readability.\nExample:",
+    "crumbs": [
+      "Modelling Report"
+    ]
+  },
+  {
+    "objectID": "modelling_report.html#image-features",
+    "href": "modelling_report.html#image-features",
+    "title": "Modelling Report",
+    "section": "Image Features",
+    "text": "Image Features\nImages were embedded using ResNet50, reduced using PCA (100 components), and merged by ID into the model.\n\n\n\n\n\ngraph TD\n    A[Download Images] --&gt; B[ResNet50 Feature Extraction]\n    B --&gt; C[PCA Reduction]\n    C --&gt; D[Join with Main DataFrame]",
+    "crumbs": [
+      "Modelling Report"
+    ]
+  },
+  {
+    "objectID": "modelling_report.html#feature-engineering-summary",
+    "href": "modelling_report.html#feature-engineering-summary",
+    "title": "Modelling Report",
+    "section": "Feature Engineering Summary",
+    "text": "Feature Engineering Summary\n\n\n\nFeature Source\nExample Features\n\n\n\n\nStructured\narea, log_area_sqm, is_top_floor\n\n\nSemantic Clusters\ndescription_cluster\n\n\nImage PCA\nimg_pca_0 … img_pca_99\n\n\nGeo Binning\nlat_bin, lon_bin\n\n\nAugmented\nrare class noise injection",
     "crumbs": [
       "Modelling Report"
     ]
@@ -305,7 +345,7 @@
     "href": "modelling_report.html#were-the-objectives-achieved",
     "title": "Modelling Report",
     "section": "Were the Objectives Achieved?",
-    "text": "Were the Objectives Achieved?\nYes. The Random Forest model for both rental and purchase predictions demonstrated sufficient accuracy and interpretability to support project goals.",
+    "text": "Were the Objectives Achieved?\nYes. The enhanced Random Forest models surpassed baselines and proved suitable for deployment.",
     "crumbs": [
       "Modelling Report"
     ]
@@ -315,7 +355,7 @@
     "href": "modelling_report.html#key-findings",
     "title": "Modelling Report",
     "section": "Key Findings",
-    "text": "Key Findings\n\nNonlinear models (RandomForest, XGBoost) outperformed Linear Regression significantly\n\nFeature importance revealed consistent key drivers of price\n\nResiduals showed low heteroscedasticity for Random Forest",
+    "text": "Key Findings\n\nTree-based models outperformed linear models significantly\n\nCombined features led to robust predictions\n\nClustering added interpretability and segmentation",
     "crumbs": [
       "Modelling Report"
     ]
@@ -325,17 +365,17 @@
     "href": "modelling_report.html#limitations",
     "title": "Modelling Report",
     "section": "Limitations",
-    "text": "Limitations\n\nRental prices can be influenced by unseen factors (e.g. current market dynamics)\nGeographic clustering could be refined using more granular or external datasets\nDeployment requires data cleaning consistency",
+    "text": "Limitations\n\nMarket dynamics not included in data\n\nClustering depends on text quality\n\nImage availability varies across properties",
     "crumbs": [
       "Modelling Report"
     ]
   },
   {
-    "objectID": "modelling_report.html#summary-of-findings",
-    "href": "modelling_report.html#summary-of-findings",
+    "objectID": "modelling_report.html#summary",
+    "href": "modelling_report.html#summary",
     "title": "Modelling Report",
-    "section": "Summary of Findings",
-    "text": "Summary of Findings\n\nRandom Forest was the most robust model across both pricing targets\nThe pipeline is reproducible, well-documented, and interpretable\nFeature importance analysis enables explainability for stakeholders",
+    "section": "Summary",
+    "text": "Summary\n\nBest performance achieved with Random Forests using enriched feature sets\n\nPipeline supports automated, reproducible model training\n\nStakeholder interpretability was prioritized",
     "crumbs": [
       "Modelling Report"
     ]
@@ -345,17 +385,7 @@
     "href": "modelling_report.html#future-work",
     "title": "Modelling Report",
     "section": "Future Work",
-    "text": "Future Work\n\nIncorporate additional location metadata (e.g. crime rate, proximity to transport)\nExplore ensemble models or deep learning for fine-tuning\nPrepare deployment-ready API with versioned model artifacts",
-    "crumbs": [
-      "Modelling Report"
-    ]
-  },
-  {
-    "objectID": "modelling_report.html#deployment",
-    "href": "modelling_report.html#deployment",
-    "title": "Modelling Report",
-    "section": "Deployment",
-    "text": "Deployment\nWe propose deploying the selected Random Forest models via a RESTful API, integrated with the frontend UI. Future iterations should include continuous retraining and monitoring mechanisms.",
+    "text": "Future Work\n\nUse external data (transport, demographics)\n\nExplore deep learning and model ensembles\n\nDeploy via REST API and monitor performance",
     "crumbs": [
       "Modelling Report"
     ]
