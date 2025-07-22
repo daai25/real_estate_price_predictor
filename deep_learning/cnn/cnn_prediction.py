@@ -14,7 +14,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from cnn_training import preprocess_structured_data, load_feature_extractor
 
 # === Configuration ===
-MODEL_PATH = "combined_price_model.joblib"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(SCRIPT_DIR, "combined_price_model.joblib")
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # === Image transform ===

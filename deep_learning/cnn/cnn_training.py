@@ -255,6 +255,7 @@ if __name__ == "__main__":
     print("📦 Loading property data...")
     df = pd.DataFrame(get_all_properties())
 
+    script_dir = os.path.dirname(os.path.abspath(__file__))
     for mode, mode_name, model_filename in [
         (True, "rental", "combined_price_model_rental.joblib"),
         (False, "purchase", "combined_price_model_purchase.joblib")
@@ -308,5 +309,6 @@ if __name__ == "__main__":
         y = full_df["price"]
 
         print(f"🚀 Training {mode_name} model...")
-        train_model(X, y, save_path=model_filename)
-        print(f"✅ {mode_name.capitalize()} model saved as {model_filename}")
+        save_path = os.path.join(script_dir, model_filename)
+        train_model(X, y, save_path=save_path)
+        print(f"✅ {mode_name.capitalize()} model saved as {save_path}")
