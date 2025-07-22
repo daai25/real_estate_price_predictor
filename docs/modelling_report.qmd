@@ -1,37 +1,239 @@
-# Modelling Report
-The report should summarise the details of the modelling activities, e.g. machine learning experiments. 
 
-## Initial situation
-- Aim of the modelling - consistent with *Data Mining Goals* in the project charta
-- Data set(s) and/or feature set used (references to the data report)
-- Description of the independent variables and (if applicable) the target variable
-- Type of model used or developed
+---
+title: "Modelling Report"
+author: "Real Estate Price Predictor Team"
+format: html
+---
 
-## Model Descriptions
-Overview of the models used and/or implemented and their configurations 
+# Initial Situation
 
-- Detailed description of the model used (e.g. literature references, specification of the software library, exact module, version or other implementation details etc.)
-- Graphical representation of the modelling pipeline
-- If applicable: link to the code of the modelling pipeline, version information in code repository, configuration files
-- If possible, links to the artefacts of the executed modelling pipeline (training experiment)
-- Link to the literature in which the model/method is described
-- Hyperparameters
+## Aim of the Modelling
 
-## Results
-Key figures dependent on the model and modelling objective
+The goal of this modelling phase was to build predictive models for real estate pricing, both for **rental** and **purchase** markets. This objective aligns with the Data Mining Goals defined in the project charta:  
+- Predict the price of a property based on structured features  
+- Evaluate multiple models to select the best-performing one  
+- Interpret model outputs and determine feasibility for deployment
 
-- RMSD, ROC/Lift-Charts, AUC, Confusion Matrix, Accuracy, Precision, Recall
-- Coherence, Perplexity, ... 
-- If applicable: analyses/plots of (hyper)parameter screenings
+## Data Sets and Features
 
-## Model Interpretation
-- If applicable: Results from the application of "explanatory models"
-- Were the modelling objectives achieved?
-- The findings resulting from the modelling phase: can the project objective be achieved with the results from the modelling phase?
-- How can the findings be used? Are there any limitations?
+We used the cleaned and preprocessed dataset described in the **Data Report**. The dataset includes features such as:
+- Property characteristics (e.g. size, number of rooms, floor)
+- Location information (ZIP code, city, longitude/latitude clusters)
+- Categorical indicators extracted from property descriptions (e.g. keywords)
 
-## Conclusions and next steps
-- Conclusions of the key findings from the modelling phase
-- Discussion about limitations
-- Proposal for extensions and further work
-- Proposal for the deployment of the generated insights/model
+Target variables:
+- `price_rent` (rental market)
+- `price_purchase` (purchase market)
+
+References:
+- See Data Report for preprocessing and feature engineering details.
+
+## Model Overview
+
+Three models were tested and compared:
+- **Linear Regression** (Baseline)
+- **Random Forest Regressor**
+- **XGBoost Regressor**
+
+All models were implemented using `scikit-learn` and `xgboost` in Python 3.11.
+
+The final selected model was **Random Forest**, based on its superior performance across evaluation metrics and residual analysis.
+
+# Model Descriptions
+
+## Software & Libraries
+
+- Python 3.11
+- `scikit-learn==1.4.2`
+- `xgboost==2.0.3`
+- `pandas`, `numpy`, `matplotlib`, `seaborn`
+- Code repository: [GitHub Repo Link](https://github.com/your-org/your-repo)
+
+### Modelling Pipeline
+
+```{mermaid}
+graph TD
+    A[Load Data] --> B[Feature Engineering]
+    B --> C[Split Data]
+    C --> D1[Train LinearRegression]
+    C --> D2[Train RandomForest]
+    C --> D3[Train XGBoost]
+    D1 --> E1[Evaluate Model]
+    D2 --> E2[Evaluate Model]
+    D3 --> E3[Evaluate Model]
+```
+
+### Model Artefacts
+
+- RandomForest Model: `random_forest_rent.pkl`, `random_forest_purchase.pkl`
+- Configuration files: `config.yml`, `params.json`
+
+# Hyperparameters
+
+| Model            | Key Hyperparameters                          |
+|------------------|----------------------------------------------|
+| LinearRegression | Default parameters                          |
+| RandomForest     | `n_estimators=150`, `max_depth=20`, `random_state=42` |
+| XGBoost          | `n_estimators=150`, `max_depth=8`, `learning_rate=0.1` |
+
+# Results
+
+## Rental Price Prediction
+
+### Linear Regression
+
+- RMSE: 855.18 CHF  
+- R²: 0.62  
+
+Plots:  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_residuals_distribution.png)  
+
+---
+
+### XGBoost
+
+- RMSE: 546.03 CHF  
+- R²: 0.83  
+
+Plots:  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/rental_residuals_distribution.png)  
+
+---
+
+### Random Forest (Selected)
+
+- RMSE: **188.42 CHF**  
+- R²: **0.98**  
+
+Plots:  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/rental_residuals_distribution.png)  
+
+---
+
+## Purchase Price Prediction
+
+### Linear Regression
+
+- RMSE: 158'601.24 CHF  
+- R²: 0.58  
+
+Plots:  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/purchase_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/purchase_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/linear_regression/rental_residuals_distribution.png)  
+
+---
+
+### XGBoost
+
+- RMSE: 91'578.85 CHF  
+- R²: 0.84  
+
+Plots:  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/xgboost/purchase_residuals_distribution.png)  
+
+---
+
+### Random Forest (Selected)
+
+- RMSE: **37'346.90 CHF**  
+- R²: **0.97**  
+
+Plots:  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_actual_vs_predicted.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_feature_importances.png)  
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/random_forest/purchase_residuals_distribution.png)  
+
+# Advanced Modelling & Feature Engineering
+
+## Semantic Text Clustering
+
+To enhance the predictive power of property descriptions, we introduced **semantic clustering** using the `SentenceTransformer` model `all-MiniLM-L6-v2`.
+
+```{mermaid}
+graph TD
+    A[Load Descriptions] --> B[SentenceTransformer Embedding]
+    B --> C[Run KMeans Clustering]
+    C --> D[Evaluate with Silhouette Score]
+    D --> E[Select Optimal Cluster Number]
+```
+
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/clustering/silhouette_analysis.png)
+
+## Cluster Top Terms
+
+Clusters were labeled using top TF-IDF terms per cluster, translated for stakeholder readability.
+
+Example:
+![](https://raw.githubusercontent.com/daai25/real_estate_price_predictor/main/evaluation/clustering/top_terms_cluster_0.png)
+
+## Image Features
+
+Images were embedded using **ResNet50**, reduced using **PCA (100 components)**, and merged by ID into the model.
+
+```{mermaid}
+graph TD
+    A[Download Images] --> B[ResNet50 Feature Extraction]
+    B --> C[PCA Reduction]
+    C --> D[Join with Main DataFrame]
+```
+
+## Feature Engineering Summary
+
+| Feature Source    | Example Features                        |
+|-------------------|-----------------------------------------|
+| Structured        | area, log_area_sqm, is_top_floor        |
+| Semantic Clusters | description_cluster                     |
+| Image PCA         | img_pca_0 ... img_pca_99                |
+| Geo Binning       | lat_bin, lon_bin                        |
+| Augmented         | rare class noise injection              |
+
+# Model Interpretation
+
+Random Forests provide interpretable insights via:
+- Feature importances
+- Residual analysis
+
+Top Drivers:
+- **Rental**: area, location cluster, room count  
+- **Purchase**: area, ZIP cluster, property type indicators  
+
+# Achievements & Limitations
+
+## Were the Objectives Achieved?
+
+Yes. The enhanced Random Forest models surpassed baselines and proved suitable for deployment.
+
+## Key Findings
+
+- Tree-based models outperformed linear models significantly  
+- Combined features led to robust predictions  
+- Clustering added interpretability and segmentation
+
+## Limitations
+
+- Market dynamics not included in data  
+- Clustering depends on text quality  
+- Image availability varies across properties
+
+# Conclusions and Next Steps
+
+## Summary
+
+- Best performance achieved with Random Forests using enriched feature sets  
+- Pipeline supports automated, reproducible model training  
+- Stakeholder interpretability was prioritized
+
+## Future Work
+
+- Use external data (transport, demographics)  
+- Explore deep learning and model ensembles  
+- Deploy via REST API and monitor performance

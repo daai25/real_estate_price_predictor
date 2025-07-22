@@ -1,5 +1,6 @@
 # Import standard and third-party libraries
 from datetime import datetime
+import joblib
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
@@ -9,8 +10,8 @@ import os
 # Import machine learning tools from scikit-learn
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import root_mean_squared_error, r2_score
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import make_scorer, mean_absolute_error, root_mean_squared_error, r2_score
+from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
@@ -100,45 +101,64 @@ def load_data(is_rental_mode=True):
 
 
 # Function to train the regression model and visualize performance
-def train_model(df, n_estimators=200):
+def train_model(df, save_path=None):
     X = df.drop(columns=["price"])  # Features
     y = df["price"]  # Target variable
 
-    # Select categorical columns to encode
     categorical_features = [col for col in ["city", "region"] if col in X.columns]
 
-    # Create preprocessing pipeline with OneHotEncoding for categorical features
+    # Preprocessing pipeline
     preprocessor = ColumnTransformer([
         ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features)
     ], remainder="passthrough")
 
-    # Combine preprocessing and regression model in a pipeline
-    model = Pipeline([
+    # Combine preprocessing and regressor in a pipeline
+    pipeline = Pipeline([
         ("preprocessing", preprocessor),
-        ("regressor", RandomForestRegressor(n_estimators, random_state=42))
+        ("regressor", RandomForestRegressor(random_state=42))
     ])
 
-    # Split into training and testing datasets
+    # Hyperparameter grid
+    param_grid = {
+        "regressor__n_estimators": [100, 200],
+        "regressor__max_depth": [10, 20],
+        "regressor__min_samples_split": [2, 5],
+        "regressor__min_samples_leaf": [1, 2]
+    }
+
+    scorer = make_scorer(mean_absolute_error, greater_is_better=False)
+    kf = KFold(n_splits=3, shuffle=True, random_state=42)
+
+    grid_search = GridSearchCV(
+        estimator=pipeline,
+        param_grid=param_grid,
+        scoring=scorer,
+        cv=kf,
+        verbose=1,
+        n_jobs=-1
+    )
+    
+    # Split into training/testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Train the model
-    model.fit(X_train, y_train)
+    # Fit with hyperparameter tuning
+    grid_search.fit(X_train, y_train)
 
-    # Evaluate the model
-    y_pred = model.predict(X_test)
+    best_model = grid_search.best_estimator_
+
+    if save_path:
+        joblib.dump(best_model, save_path)
+        print(f"📦 Tuned model saved to {save_path}")
+
+    # Evaluate
+    y_pred = best_model.predict(X_test)
     rmse = root_mean_squared_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
+    print(f"Best parameters: {grid_search.best_params_}")
     print(f"Model evaluation:\nRMSE: {rmse:.2f} CHF\nR²: {r2:.2f}")
 
-    # Plot predicted vs. actual prices
-    plt.scatter(y_test, y_pred, alpha=0.5)
-    plt.xlabel("Actual Price")
-    plt.ylabel("Predicted Price")
-    plt.title("Actual vs Predicted Prices")
-    plt.grid(True)
-    plt.show()
+    return best_model
 
-    return model
 
 
 # Prompt user for new property details and prepare input DataFrame
@@ -207,10 +227,19 @@ if __name__ == "__main__":
             raise ValueError("Invalid mode selected. Please enter 1 or 2.")
 
         is_rental = (mode == "1")
+        
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        model_name = "random_forest_model_rental.joblib" if is_rental else "random_forest_model_purchase.joblib"
+        model_filename = os.path.join(script_dir, model_name)
 
         # Load data and train model
-        df = load_data(is_rental_mode=is_rental)
-        model = train_model(df, 200 if mode == "1" else 500)
+        if os.path.exists(model_filename):
+            print(f"🔁 Loading existing model from {model_filename} ...")
+            model = joblib.load(model_filename)
+        else:
+            print("📚 Training new model ...")
+            df = load_data(is_rental_mode=is_rental)
+            model = train_model(df, save_path=model_filename)
 
         # Loop for multiple predictions
         while True:
