@@ -4,13 +4,11 @@ import LocationPicker from "../../components/location-picker/LocationPicker";
 
 export default function Predictor() {
     const [mode, setMode] = useState("rental");
-
-    const handleModeChange = (newMode) => setMode(newMode);
-
     const [images, setImages] = useState([]);
     const maxNumber = 10;
-    // For stable drag highlight
     const [dragActive, setDragActive] = useState(false);
+    const [prediction, setPrediction] = useState(null); // NEW: prediction display
+    const [isLoading, setIsLoading] = useState(false); // NEW: loading state
 
     const [location, setLocation] = useState({
         address: "",
@@ -21,26 +19,120 @@ export default function Predictor() {
         lon: null
     });
 
+    const [form, setForm] = useState({ // NEW: form state
+        rooms: "",
+        area: "",
+        floor: "",
+        has_balcony: false,
+        is_new: false,
+        has_view: false,
+        has_garden: false,
+        has_parking: false,
+        has_air_conditioning: false,
+    });
+
+    const handleSubmit = async (e) => { // NEW: API call
+        e.preventDefault();
+        setIsLoading(true); // Start loading
+        setPrediction(null); // Clear previous prediction
+
+        const formData = new FormData();
+        formData.append("mode", mode);
+        formData.append("rooms", form.rooms);
+        formData.append("area", form.area);
+        formData.append("floor", form.floor);
+        formData.append("zip_code", location.zip);
+        formData.append("city", location.city);
+        formData.append("region", location.region);
+        formData.append("lat", location.lat);
+        formData.append("lon", location.lon);
+        formData.append("availability_date", new Date().toISOString().split("T")[0]);
+        formData.append("description_cluster", "0");
+
+        formData.append("has_balcony", form.has_balcony ? 1 : 0);
+        formData.append("is_new", form.is_new ? 1 : 0);
+        formData.append("has_view", form.has_view ? 1 : 0);
+        formData.append("has_garden", form.has_garden ? 1 : 0);
+        formData.append("has_parking", form.has_parking ? 1 : 0);
+        formData.append("has_air_conditioning", form.has_air_conditioning ? 1 : 0);
+
+        // Send multiple images to match the updated API
+        if (images.length > 0) {
+            images.forEach((image, index) => {
+                if (image.file) {
+                    formData.append("images", image.file);
+                }
+            });
+        }
+
+        console.log("Sending form data:", {
+            mode,
+            rooms: form.rooms,
+            area: form.area,
+            floor: form.floor,
+            location,
+            images: images.length,
+            features: {
+                has_balcony: form.has_balcony,
+                is_new: form.is_new,
+                has_view: form.has_view,
+                has_garden: form.has_garden,
+                has_parking: form.has_parking,
+                has_air_conditioning: form.has_air_conditioning,
+            }
+        });
+
+        try {
+            console.log("Sending request to API...");
+            const response = await fetch("http://localhost:5000/predict", {
+                method: "POST",
+                body: formData,
+            });
+            
+            console.log("Response received:", response.status, response.statusText);
+            
+            const result = await response.json();
+            console.log("API Response data:", result);
+            
+            if (response.ok) {
+                console.log("Success! Prediction:", result.prediction);
+                setPrediction(result.prediction);
+                // Removed alert - prediction is displayed below the form
+            } else {
+                console.error("API Error:", result);
+                alert(`Prediction failed: ${result.error || 'Unknown error'}`);
+            }
+        } catch (err) {
+            console.error("Network/API error:", err);
+            alert("An error occurred while contacting the prediction server. Make sure the Flask API is running on localhost:5000.");
+        } finally {
+            setIsLoading(false); // Stop loading regardless of success/failure
+        }
+    };
+
     return (
-        <div
-            style={{
-                minHeight: "100vh",
-                background: `
-          linear-gradient(
-            rgba(0, 0, 0, 0.4),
-            rgba(0, 0, 0, 0.7)
-          ),
-          url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg') center/cover no-repeat
-        `,
-                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-                color: "white",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                padding: "2rem",
-            }}
-        >
+        <>
+            <style>
+                {`
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                `}
+            </style>
+            <div
+                style={{
+                    minHeight: "100vh",
+                    background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg') center/cover no-repeat`,
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                    color: "white",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    padding: "2rem",
+                }}
+            >
             <main
                 style={{
                     width: "100%",
@@ -65,7 +157,7 @@ export default function Predictor() {
                     {["rental", "purchase"].map((m) => (
                         <button
                             key={m}
-                            onClick={() => handleModeChange(m)}
+                            onClick={() => setMode(m)}
                             style={{
                                 padding: "0.6rem 1.5rem",
                                 fontSize: "0.95rem",
@@ -83,7 +175,6 @@ export default function Predictor() {
                     ))}
                 </div>
 
-
                 {/* Form layout */}
                 <form
                     style={{
@@ -92,9 +183,8 @@ export default function Predictor() {
                         gap: "2rem",
                         width: "100%"
                     }}
-                    onSubmit={e => e.preventDefault()}
+                    onSubmit={handleSubmit} // MODIFIED
                 >
-                    {/* Location picker section - full width */}
                     <div style={{ width: "100%" }}>
                         <LocationPicker onSelect={(loc) => setLocation(loc)} />
                         <p style={{ fontSize: "0.9rem", marginTop: "0.5rem", color: "lightgray" }}>
@@ -102,35 +192,45 @@ export default function Predictor() {
                         </p>
                     </div>
 
-                    {/* Input fields in a row */}
                     <div style={{ display: "flex", gap: "1rem", width: "100%", flexWrap: "wrap" }}>
                         {[
                             { label: "Rooms", name: "rooms", type: "number" },
                             { label: "Area (sqm)", name: "area", type: "number" },
                             { label: "Floor", name: "floor", type: "number" },
                         ].map((f) => (
-                            <input
-                                key={f.name}
-                                placeholder={f.label}
-                                type={f.type}
-                                name={f.name}
-                                style={{
-                                    flex: 1,
-                                    minWidth: "150px",
-                                    padding: "0.6rem",
-                                    borderRadius: "6px",
-                                    border: "none",
-                                    fontSize: "1rem",
-                                }}
-                            />
+                            <div key={f.name} style={{ flex: 1, minWidth: "150px" }}>
+                                <label style={{
+                                    display: "block",
+                                    marginBottom: "0.5rem",
+                                    fontSize: "0.9rem",
+                                    color: "white",
+                                    fontWeight: "500"
+                                }}>
+                                    {f.label}
+                                </label>
+                                <input
+                                    type={f.type}
+                                    name={f.name}
+                                    value={form[f.name] || ""}
+                                    onChange={(e) => setForm({ ...form, [f.name]: e.target.value })}
+                                    style={{
+                                        width: "100%",
+                                        padding: "0.6rem",
+                                        borderRadius: "6px",
+                                        border: "none",
+                                        fontSize: "1rem",
+                                        boxSizing: "border-box",
+                                        textAlign: "center"
+                                    }}
+                                />
+                            </div>
                         ))}
                     </div>
 
-                    {/* Features checkboxes section */}
                     <div style={{ width: "100%" }}>
-                        <h3 style={{ 
-                            fontSize: "1.1rem", 
-                            marginBottom: "1rem", 
+                        <h3 style={{
+                            fontSize: "1.1rem",
+                            marginBottom: "1rem",
                             color: "white",
                             fontWeight: "500",
                             textAlign: "left"
@@ -140,13 +240,10 @@ export default function Predictor() {
                         <div
                             style={{
                                 display: "grid",
-                                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                                gridTemplateColumns: "1fr 1fr",
                                 gap: "1rem",
                                 width: "100%",
-                                padding: "1.5rem",
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                borderRadius: "8px",
-                                border: "1px solid rgba(255, 255, 255, 0.2)"
+                                padding: "0"
                             }}
                         >
                             {[
@@ -156,43 +253,52 @@ export default function Predictor() {
                                 "Has Garden",
                                 "Has Parking",
                                 "Has Air Conditioning",
-                            ].map((feature) => (
-                                <label
-                                    key={feature}
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        fontSize: "0.95rem",
-                                        color: "white",
-                                        cursor: "pointer",
-                                        padding: "0.5rem",
-                                        borderRadius: "4px",
-                                        transition: "background-color 0.2s",
-                                        backgroundColor: "transparent"
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.backgroundColor = "transparent";
-                                    }}
-                                >
-                                    <input 
-                                        type="checkbox" 
-                                        style={{ 
-                                            marginRight: "0.75rem",
-                                            width: "16px",
-                                            height: "16px",
-                                            cursor: "pointer"
-                                        }} 
-                                    />
-                                    {feature}
-                                </label>
-                            ))}
+                            ].map((featureLabel) => {
+                                const featureKey = featureLabel
+                                    .toLowerCase()
+                                    .replace(/ /g, "_");
+
+                                return (
+                                    <label
+                                        key={featureLabel}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            fontSize: "1rem",
+                                            color: "white",
+                                            cursor: "pointer",
+                                            padding: "0.75rem",
+                                            borderRadius: "4px",
+                                            transition: "background-color 0.2s",
+                                            backgroundColor: "transparent"
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.backgroundColor = "transparent";
+                                        }}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={form[featureKey] || false}
+                                            onChange={(e) =>
+                                                setForm({ ...form, [featureKey]: e.target.checked })
+                                            }
+                                            style={{
+                                                marginRight: "1rem",
+                                                width: "20px",
+                                                height: "20px",
+                                                cursor: "pointer"
+                                            }}
+                                        />
+                                        {featureLabel}
+                                    </label>
+                                );
+                            })}
                         </div>
                     </div>
 
-                    {/* Image upload full width */}
                     <div style={{ width: "100%" }}>
                         <ImageUploading
                             multiple
@@ -320,25 +426,60 @@ export default function Predictor() {
                     </div>
                 </form>
 
-                {/* Submit button */}
-                <div style={{ marginTop: "2rem" }}>
+                <div style={{ 
+                    marginTop: "2rem", 
+                    display: "flex", 
+                    justifyContent: "center", 
+                    width: "100%" 
+                }}>
                     <button
                         type="submit"
+                        onClick={handleSubmit}
+                        disabled={isLoading}
                         style={{
                             padding: "0.8rem 2rem",
                             fontSize: "1rem",
                             fontWeight: "600",
-                            color: "#000",
-                            backgroundColor: "white",
+                            color: isLoading ? "#666" : "#000",
+                            backgroundColor: isLoading ? "#f0f0f0" : "white",
                             border: "none",
                             borderRadius: "8px",
-                            cursor: "pointer",
+                            cursor: isLoading ? "not-allowed" : "pointer",
                             boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "0.5rem",
+                            transition: "all 0.2s",
                         }}
                     >
-                        Predict Price
+                        {isLoading && (
+                            <div
+                                style={{
+                                    width: "16px",
+                                    height: "16px",
+                                    border: "2px solid #666",
+                                    borderTop: "2px solid transparent",
+                                    borderRadius: "50%",
+                                    animation: "spin 1s linear infinite",
+                                }}
+                            />
+                        )}
+                        {isLoading ? "Predicting..." : "Predict Price"}
                     </button>
                 </div>
+
+                {prediction && (
+                    <p style={{ 
+                        marginTop: "1.5rem", 
+                        fontSize: "1.5rem", 
+                        color: "#e0fcffff",
+                        fontWeight: "bold",
+                        textShadow: "0 2px 4px rgba(0,0,0,0.3)"
+                    }}>
+                        💰 Predicted Price: CHF {prediction.toLocaleString()}
+                    </p>
+                )}
             </main>
 
             <footer
@@ -352,5 +493,6 @@ export default function Predictor() {
                 Michael · Josh · Enmanuel · Alessandro
             </footer>
         </div>
+        </>
     );
 }

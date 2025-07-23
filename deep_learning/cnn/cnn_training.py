@@ -188,10 +188,11 @@ def preprocess_structured_data(df: pd.DataFrame, is_rental_mode=True) -> pd.Data
     for col in ["is_new", "has_view", "has_garden", "has_parking", "has_air_conditioning"]:
         df[col] = df.get(col, False).astype(int)
 
-    # Augment rare categories to help balance the model
-    for _ in range(20):
-        for col in ["is_top_floor", "is_large", "is_small"]:
-            df = augment_with_noise(df, condition_col=col, condition_val=1)
+    # Augment rare categories to help balance the model - ONLY during training (when we have multiple rows)
+    if len(df) > 1:  # Only augment during training, not prediction
+        for _ in range(20):
+            for col in ["is_top_floor", "is_large", "is_small"]:
+                df = augment_with_noise(df, condition_col=col, condition_val=1)
 
     return df
 
