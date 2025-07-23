@@ -11,7 +11,7 @@ export default function Header() {
       <div className="logo">realAIce</div>
       <nav className={`nav ${menuOpen ? "open" : ""}`}>
         <Link to="/">Home</Link>
-        <Link to="/visualization">Data Visualization</Link>
+        <Link to="/data_visualization">Data Visualization</Link>
         <Link to="/predictor">Predictor</Link>
         <Link to="/explorer">Interactive Explorer</Link>
         <Link to="/about">About</Link>
