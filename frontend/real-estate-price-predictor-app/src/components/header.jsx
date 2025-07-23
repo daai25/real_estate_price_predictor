@@ -1,4 +1,6 @@
+
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./header.css";
 
 export default function Header() {
@@ -8,11 +10,11 @@ export default function Header() {
     <header className="header">
       <div className="logo">realAIce</div>
       <nav className={`nav ${menuOpen ? "open" : ""}`}>
-        <a href="#home">Home</a>
-        <a href="#visualization">Data Visualization</a>
-        <a href="#predictor">Predictor</a>
-        <a href="#explorer">Interactive Explorer</a>
-        <a href="#about">About</a>
+        <Link to="/">Home</Link>
+        <Link to="/visualization">Data Visualization</Link>
+        <Link to="/predictor">Predictor</Link>
+        <Link to="/explorer">Interactive Explorer</Link>
+        <Link to="/about">About</Link>
       </nav>
       <div
         className={`hamburger ${menuOpen ? "open" : ""}`}
