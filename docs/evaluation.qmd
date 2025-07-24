@@ -1,20 +1,69 @@
-# Evaluation
-This protocol summarises the decisions from the evaluation of the data mining phase, which are made, for example, in a workshop together with the client and other stakeholders.
+---
+title: "Evaluation Protocol"
+author: "Real Estate Price Predictor Team"
+format: html
+---
 
-Decide:
+# Evaluation Protocol
 
-* Do results meet user needs?
-* Continuation of the project yes/no
-* Planning of the deployment
-* Carry out an additional data mining iteration
-    * Acquire more or different data
-    * Improvements in the modelling
-    * Address governance issues
-    * or ethical considerations
-    * ...
+This protocol documents the decisions taken at the evaluation stage of the **Real Estate Price Predictor** project. The evaluation was conducted in a team workshop on **2025-07-24**, with the aim of assessing whether the results of the data mining phase meet user needs and whether to proceed to deployment.
 
-Any presentation material created for such a workshop should also be stored in the `docs` folder.
+## Participants
 
-It is important to list who was involved in the decisions and when they were made.
+| Name                        | Role                  |
+|-----------------------------|-----------------------|
+| Josh Richter                | Data Engineer         |
+| Alessandro Mazzeo           | ML Developer          |
+| Antonie Michael Verdile     | Full Stack Developer  |
+| Enmanuel Lizardo            | Data Scientist        | 
 
-The structure and level of detail of this protocol should be tailored to the customs of the relevant organisation and the requirements of the decision-makers. It might include already a high level description of the envisioned product to be deployed.
+## Evaluation Summary
+
+### Do Results Meet User Needs?
+
+**Yes.**  
+The developed Random Forest models achieved high predictive performance, surpassing the minimum success criteria outlined in the Project Charta (R² > 0.75, MAE < 300 CHF). The models provide accurate, interpretable predictions for both rental and purchase markets and are ready for integration into a dashboard for user interaction.
+
+### Continuation of the Project
+
+**Yes.**  
+The team unanimously decided to proceed with deployment and further development. The results were deemed robust and aligned with the project goals.
+
+### Planning of the Deployment
+
+Deployment will include:
+- Integrating the trained Random Forest models into a web-based user interface.
+- Backend implementation of the prediction API.
+- Monitoring and maintenance plan for the deployed models.
+- Documentation of model assumptions and limitations for transparency.
+
+Planned timeline: see Project Gantt Chart — Phase 4: Visualization (2025-07-24 through 2025-07-28).
+
+### Additional Data Mining Iteration
+
+**Not required at this stage.**
+However, the following future enhancements were noted:
+- Augment data with external sources such as demographic and transport data.
+- Improve clustering methods by incorporating domain-specific ontologies.
+- Reassess governance and ethics as data privacy regulations evolve.
+
+## Workshop Materials
+
+- [Presentation slides (PDF)](Pitch_RealAIce.pdf)
+
+## Envisioned Product
+
+The final product to be deployed is a **web-based prediction dashboard** that:
+- Allows users to input property features and obtain real-time price predictions.
+- Visualizes prediction confidence and key feature contributions.
+- Offers insights into market segmentation (via clusters) and trends.
+
+## Notes
+
+The team acknowledges the limitations identified in the modelling phase, particularly:
+- Market dynamics not yet accounted for.
+- Dependence on scraped data quality and completeness.
+
+These points will be addressed in future project iterations.
+
+---
