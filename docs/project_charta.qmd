@@ -92,9 +92,10 @@ An ML-powered property price predictor can dramatically reduce the time and unce
 
 | Name            | Role             | Tasks                                                                  | Contact                     |
 |-----------------|------------------|------------------------------------------------------------------------|-----------------------------|
-| Josh            | Data Engineer    | Web scraping, data cleaning, DB design                                | richtjos@mail.gvsu.edu         |
-| Alessandro Mazzeo             | ML Developer     | Feature engineering, model training, evaluation                        | mazzale@students.zhaw.ch         |
-| Antonio Michal Verdile        | Full Stack Dev   | Dashboard development, ML integration, UI/UX design                    | verdiant@students.zhaw.ch         |
+| Josh Richter            | Data Engineer    | Web scraping, data cleaning, DB design                                | richtjos@mail.gvsu.edu           |
+| Alessandro Mazzeo     | ML Developer     | Feature engineering, model training, evaluation                        | mazzale@students.zhaw.ch         |
+| Antonio Michael Verdile       | Full Stack Dev   | Dashboard development, ML integration, UI/UX design                    | verdiant@students.zhaw.ch         |
+| Enmanuel Lizardo   | Data Scientist | Analytics, research, data visualisation  | lizardoe@mail.gvsu.edu|
 
 ```{mermaid}
 gantt
@@ -105,14 +106,14 @@ gantt
     axisFormat  %d.%m
 
     section Phase 1: 
-    Data Engineering    :crit,   gh1, 2025-06-30, 4d
+    Data Eng.           :crit,   gh1, 2025-06-30, 4d
     Project Charta      :        pc1, 2025-06-30, 1d
     Data Scraping       :        ds1, 2025-07-01, 2d
     DB Design           :        db1, 2025-07-02, 1d
     Data Insertion      :        di1, 2025-07-03, 1d
 
     section Phase 2: 
-    Machine Learning    :crit,   cd1, 2025-07-07, 4d
+    ML                  :crit,   cd1, 2025-07-07, 4d
     Data Prep           :        dp1, 2025-07-07, 1d
     EDA                 :        ed,  2025-07-07, 2d
     Preprocessing       :        pp1, 2025-07-08, 2d
@@ -120,7 +121,7 @@ gantt
     Evaluation          :        ev1, 2025-07-10, 1d
 
     section Phase 3: 
-    Deep Learning       :crit,   ab1, 2025-07-14, 4d
+    DL                   :crit,   ab1, 2025-07-14, 4d
     Image Labeling      :        il1, 2025-07-14, 1d
     Model Building      :        mb1, 2025-07-15, 2d
     Training            :        tr1, 2025-07-16, 1d
@@ -130,6 +131,7 @@ gantt
     Visualisation       :crit,   ef1, 2025-07-24, 4d
     Dashboard           :        dd1, 2025-07-24, 2d
     Data Visualisation  :        dv1, 2025-07-25, 1d
-    Prediction Interface:        pi1, 2025-07-26, 1d
-    Backend Integration :        bi1, 2025-07-26, 1d
+    Prediction Interface:        pi1, 2025-07-25, 1d
+    Backend Integration :        bi1, 2025-07-25, 1d
+    Presenation         :        bi1, 2025-07-26, 1d
 ```
