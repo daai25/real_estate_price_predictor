@@ -3,6 +3,22 @@ import React from 'react';
 export default function Explorer() {
 
 
+    // Dummy data for demonstration
+    // Fetch data from backend API
+    const [data, setData] = React.useState([]);
+    React.useEffect(() => {
+        fetch("http://localhost:5000/api/properties")
+            .then(res => res.json())
+            .then(setData)
+            .catch(() => setData([]));
+    }, []);
+
+    const [page, setPage] = React.useState(1);
+    const rowsPerPage = 5;
+    const pageCount = Math.ceil(data.length / rowsPerPage);
+
+    const paginatedData = data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+
     return (
         <>
             <style>
@@ -10,6 +26,51 @@ export default function Explorer() {
                     @keyframes spin {
                         0% { transform: rotate(0deg); }
                         100% { transform: rotate(360deg); }
+                    }
+                    .explorer-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 2rem 0;
+                        background: rgba(0,0,0,0.6);
+                        border-radius: 8px;
+                        overflow: hidden;
+                    }
+                    .explorer-table th, .explorer-table td {
+                        padding: 0.75rem 1rem;
+                        border-bottom: 1px solid rgba(255,255,255,0.1);
+                    }
+                    .explorer-table th {
+                        background: rgba(255,255,255,0.08);
+                        font-weight: 600;
+                    }
+                    .explorer-table tr:last-child td {
+                        border-bottom: none;
+                    }
+                    .pagination {
+                        display: flex;
+                        gap: 0.5rem;
+                        justify-content: center;
+                        align-items: center;
+                        margin-bottom: 2rem;
+                    }
+                    .pagination button {
+                        background: #fff;
+                        color: #222;
+                        border: none;
+                        border-radius: 4px;
+                        padding: 0.4rem 0.8rem;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: background 0.2s;
+                    }
+                    .pagination button:disabled {
+                        background: #ccc;
+                        color: #888;
+                        cursor: not-allowed;
+                    }
+                    .pagination .active {
+                        background: #0078d4;
+                        color: #fff;
                     }
                 `}
             </style>
@@ -39,8 +100,48 @@ export default function Explorer() {
                     </h1>
                 </main>
                 
-                {/* This is where the table should go */}
-
+                {/* Table Component */}
+                <div style={{ width: "100%", maxWidth: "900px" }}>
+                    <table className="explorer-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Address</th>
+                                <th>Price</th>
+                                <th>Bedrooms</th>
+                                <th>Bathrooms</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {paginatedData.map((row) => (
+                                <tr key={row.id}>
+                                    <td>{row.id}</td>
+                                    <td>{row.address}</td>
+                                    <td>{row.price}</td>
+                                    <td>{row.bedrooms}</td>
+                                    <td>{row.bathrooms}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="pagination">
+                        <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+                            Prev
+                        </button>
+                        {Array.from({ length: pageCount }, (_, i) => (
+                            <button
+                                key={i + 1}
+                                className={page === i + 1 ? "active" : ""}
+                                onClick={() => setPage(i + 1)}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                        <button onClick={() => setPage(page + 1)} disabled={page === pageCount}>
+                            Next
+                        </button>
+                    </div>
+                </div>
 
                 <footer
                     style={{
