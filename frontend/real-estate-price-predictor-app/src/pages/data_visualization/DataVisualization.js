@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./ImageTablePage.css"; // styling for this page
-import RentalMap from "./RentalMap"; // adjust this import path if needed
+import RentalMap from "./RentalMap";
 
 const imageData = [
   {
@@ -26,40 +25,103 @@ export default function ImageTablePage() {
   };
 
   return (
-    <div className="image-table-container">
-      {/* 🗺️ Rental Map at the top */}
-      <div style={{ marginBottom: "40px" }}>
-        <h2 style={{ textAlign: "center", marginBottom: "12px" }}>Rental Map</h2>
-        <RentalMap />
-      </div>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: `
+          linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.7)
+          ),
+          url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg')
+        `,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        padding: "2rem"
+      }}
+    >
+      <main
+        style={{
+          width: "100%",
+          maxWidth: "1000px",
+          borderRadius: "12px",
+          padding: "2rem",
+        }}
+      >
+        {/* 🗺️ Rental Map at the top */}
+        <div style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Rental Map</h2>
+          <RentalMap />
+        </div>
 
-      {/* 📊 EDA Outputs Below */}
-      <h1>EDA Outputs</h1>
-      <div className="image-grid">
-        {imageData.map((item) => (
-          <div key={item.id} className="image-item">
-            <div className="image-title">{item.title}</div>
-            {imageLoadError[item.id] ? (
-              <div className="image-error">Failed to load image</div>
-            ) : (
-              <img
-                src={item.path}
-                alt={item.title}
-                className="visualization-image"
-                loading="lazy"
-                onError={() => handleImageError(item.id)}
+        {/* 📊 EDA Outputs Below */}
+        <h1 style={{ fontSize: "2.5rem", marginBottom: "2rem" }}>EDA Outputs</h1>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "2rem",
+            justifyContent: "center",
+          }}
+        >
+          {imageData.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                padding: "1.5rem",
+                borderRadius: "10px"
+              }}
+            >
+              <h3
                 style={{
-                  display: "block",
-                  margin: "0 auto",
-                  maxWidth: "100%",
-                  height: "auto",
-                  width: "1000px"
+                  marginBottom: "1rem",
+                  fontSize: "1.3rem",
+                  fontWeight: "500",
                 }}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+              >
+                {item.title}
+              </h3>
+              {imageLoadError[item.id] ? (
+                <div style={{ color: "tomato", fontStyle: "italic" }}>
+                  Failed to load image
+                </div>
+              ) : (
+                <img
+                  src={item.path}
+                  alt={item.title}
+                  loading="lazy"
+                  onError={() => handleImageError(item.id)}
+                  style={{
+                    maxWidth: "100%",
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: "6px",
+                    objectFit: "contain"
+                  }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </main>
+
+      <footer
+        style={{
+          marginTop: "2rem",
+          fontSize: "0.85rem",
+          opacity: 0.7,
+        }}
+      >
+        Michael · Josh · Enmanuel · Alessandro
+      </footer>
     </div>
   );
 }
