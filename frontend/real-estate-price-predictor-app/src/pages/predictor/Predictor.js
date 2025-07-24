@@ -123,7 +123,11 @@ export default function Predictor() {
             <div
                 style={{
                     minHeight: "100vh",
-                    background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg') center/cover no-repeat`,
+                    background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundAttachment: "fixed",
                     fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                     color: "white",
                     display: "flex",

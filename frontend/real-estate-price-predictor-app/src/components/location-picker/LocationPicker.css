@@ -9,6 +9,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.search-container input {
+  text-align: center; /* Add this */
+  /* existing styles */
+}
+.search-loading {
+  text-align: center; /* Add this */
+}
+
 .search-container {
   position: absolute;
   top: 15px;
