@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Welcome() {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -57,6 +60,7 @@ export default function Welcome() {
         </p>
         <div>
           <button
+            onClick={() => navigate('/predictor')}
             style={{
               padding: "0.6rem 1.5rem",
               fontSize: "0.95rem",
@@ -73,6 +77,7 @@ export default function Welcome() {
             Get Started
           </button>
           <button
+            onClick={() => navigate('/about')}
             style={{
               padding: "0.6rem 1.5rem",
               fontSize: "0.95rem",
