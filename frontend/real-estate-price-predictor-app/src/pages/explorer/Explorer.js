@@ -34,14 +34,21 @@ export default function Explorer() {
                         background: rgba(0,0,0,0.6);
                         border-radius: 8px;
                         overflow: hidden;
+                        font-size: 0.85rem;
                     }
                     .explorer-table th, .explorer-table td {
-                        padding: 0.75rem 1rem;
+                        padding: 0.5rem 0.75rem;
                         border-bottom: 1px solid rgba(255,255,255,0.1);
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 150px;
                     }
                     .explorer-table th {
                         background: rgba(255,255,255,0.08);
                         font-weight: 600;
+                        position: sticky;
+                        top: 0;
                     }
                     .explorer-table tr:last-child td {
                         border-bottom: none;
@@ -101,25 +108,56 @@ export default function Explorer() {
                 </main>
                 
                 {/* Table Component */}
-                <div style={{ width: "100%", maxWidth: "900px" }}>
+                <div style={{ 
+                    width: "100%", 
+                    maxWidth: "1200px", 
+                    overflowX: "auto",
+                    borderRadius: "8px"
+                }}>
                     <table className="explorer-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Title</th>
                                 <th>Address</th>
+                                <th>ZIP</th>
+                                <th>City</th>
+                                <th>Region</th>
                                 <th>Price</th>
-                                <th>Bedrooms</th>
-                                <th>Bathrooms</th>
+                                <th>Rooms</th>
+                                <th>Area (m²)</th>
+                                <th>Floor</th>
+                                <th>Available</th>
+                                <th>Balcony</th>
+                                <th>Rental</th>
+                                <th>New</th>
+                                <th>View</th>
+                                <th>Garden</th>
+                                <th>Parking</th>
+                                <th>AC</th>
                             </tr>
                         </thead>
                         <tbody>
                             {paginatedData.map((row) => (
                                 <tr key={row.id}>
                                     <td>{row.id}</td>
+                                    <td>{row.title}</td>
                                     <td>{row.address}</td>
-                                    <td>{row.price}</td>
-                                    <td>{row.bedrooms}</td>
-                                    <td>{row.bathrooms}</td>
+                                    <td>{row.zip_code}</td>
+                                    <td>{row.city}</td>
+                                    <td>{row.region}</td>
+                                    <td>{row.price ? `CHF ${row.price.toLocaleString()}` : '-'}</td>
+                                    <td>{row.rooms}</td>
+                                    <td>{row.area_sqm}</td>
+                                    <td>{row.floor}</td>
+                                    <td>{row.availability_date ? new Date(row.availability_date).toLocaleDateString() : '-'}</td>
+                                    <td>{row.has_balcony ? '✓' : '✗'}</td>
+                                    <td>{row.is_rental ? '✓' : '✗'}</td>
+                                    <td>{row.is_new ? '✓' : '✗'}</td>
+                                    <td>{row.has_view ? '✓' : '✗'}</td>
+                                    <td>{row.has_garden ? '✓' : '✗'}</td>
+                                    <td>{row.has_parking ? '✓' : '✗'}</td>
+                                    <td>{row.has_air_conditioning ? '✓' : '✗'}</td>
                                 </tr>
                             ))}
                         </tbody>
