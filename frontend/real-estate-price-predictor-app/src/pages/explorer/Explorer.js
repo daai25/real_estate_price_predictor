@@ -6,13 +6,14 @@ export default function Explorer() {
     // Dummy data for demonstration
     // Fetch data from backend API
     const [data, setData] = React.useState([]);
+
     React.useEffect(() => {
         fetch("http://localhost:5000/api/properties")
-            .then(res => res.json())
+            .then(res => res)
             .then(setData)
             .catch(() => setData([]));
     }, []);
-
+    console.log(data);
     const [page, setPage] = React.useState(1);
     const rowsPerPage = 5;
     const pageCount = Math.ceil(data.length / rowsPerPage);
