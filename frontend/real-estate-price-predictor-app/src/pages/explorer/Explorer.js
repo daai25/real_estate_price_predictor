@@ -6,16 +6,16 @@ export default function Explorer() {
     // Dummy data for demonstration
     // Fetch data from backend API
     const [data, setData] = React.useState([]);
+    console.log("typeof data:", typeof data); // will print 'object'
 
     React.useEffect(() => {
         fetch("http://localhost:5000/api/properties")
-            .then(res => res)
+            .then(res => res.json())
             .then(setData)
             .catch(() => setData([]));
     }, []);
-    console.log(data);
     const [page, setPage] = React.useState(1);
-    const rowsPerPage = 5;
+    const rowsPerPage = 500;
     const pageCount = Math.ceil(data.length / rowsPerPage);
 
     const paginatedData = data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
@@ -85,6 +85,7 @@ export default function Explorer() {
             <div
                 style={{
                     minHeight: "100vh",
+                    maxHeight: "100vh",
                     background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg') center/cover no-repeat`,
                     fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                     color: "white",
