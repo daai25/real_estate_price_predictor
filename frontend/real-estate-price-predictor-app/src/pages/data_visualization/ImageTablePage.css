@@ -1,0 +1,46 @@
+.image-table-container {
+    padding: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.image-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.image-table th,
+.image-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.visualization-image {
+    max-width: 300px;
+    height: auto;
+}
+.image-table th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+.image-table td {
+    text-align: center;
+}
+.image-table img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.image-title {
+  font-size: 10pt;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.image-error {
+    color: red;
+    padding: 10px;
+}
