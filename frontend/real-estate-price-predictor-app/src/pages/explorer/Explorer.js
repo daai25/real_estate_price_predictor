@@ -265,6 +265,7 @@ export default function Explorer() {
             <div
                 style={{
                     minHeight: "100vh",
+                    maxHeight: "100vh",
                     background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('https://avantecture.com/wp-content/uploads/2021/10/Bruderhaus-Nr-2-aussen-13.jpg') center/cover no-repeat`,
                     fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                     color: "white",
